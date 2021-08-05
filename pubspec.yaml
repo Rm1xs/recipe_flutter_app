@@ -45,6 +45,8 @@ flutter:
    - assets/
    - assets/animations/
    - assets/fonts/
+   - lib/core/lang/en.json
+   - lib/core/lang/ru.json
 
   #   - images/a_dot_ham.jpeg
 
