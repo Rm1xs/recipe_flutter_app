@@ -12,7 +12,4 @@ class Hit {
     recipe: RecipeClass.fromJson(json["recipe"]),
   );
 
-  Map<String, dynamic> toJson() => {
-    "recipe": recipe.toJson(),
-  };
 }

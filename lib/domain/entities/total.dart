@@ -18,9 +18,4 @@ class Total {
     unit: unitValues.map[json["unit"]],
   );
 
-  Map<String, dynamic> toJson() => {
-    "label": label,
-    "quantity": quantity,
-    "unit": unitValues.reverse![unit],
-  };
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/bloc/bloc.dart';
@@ -21,10 +22,14 @@ class _RecipeControlsState extends State<RecipeControls> {
     return Column(
       children: <Widget>[
         TextField(
+          autofocus: false,
           controller: controller,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
-              border: OutlineInputBorder(), labelText: 'Recipe'),
+              border: OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+              ),
+              labelText: 'Recipe'),
           onChanged: (value) {
             if (isSearchAllowed) {
               isSearchAllowed = false;
@@ -34,11 +39,10 @@ class _RecipeControlsState extends State<RecipeControls> {
             }
           },
           onSubmitted: (_) {
-            dispatchConcrete();
+            //dispatchConcrete();
           },
         ),
         SizedBox(height: 10),
-
       ],
     );
   }

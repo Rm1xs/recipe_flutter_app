@@ -9,6 +9,7 @@ class RecipeClass {
     required this.image,
     required this.ingredientLines,
     required this.calories,
+    required this.dietLabels,
   });
 
   String label;
@@ -16,18 +17,24 @@ class RecipeClass {
   List<String> ingredientLines;
   double calories;
 
+  List<String> dietLabels;
+
   factory RecipeClass.fromJson(Map<String, dynamic> json) => RecipeClass(
         label: json["label"],
         image: json["image"],
         ingredientLines:
             List<String>.from(json["ingredientLines"].map((x) => x)),
         calories: json["calories"].toDouble(),
+        dietLabels: List<String>.from(json["dietLabels"].map((x) => x)),
       );
 
+
   Map<String, dynamic> toJson() => {
-        "label": label,
-        "image": image,
-        "ingredientLines": List<dynamic>.from(ingredientLines.map((x) => x)),
-        "calories": calories,
-      };
+    "label": label,
+    "image": image,
+    "dietLabels": List<dynamic>.from(dietLabels.map((x) => x)),
+    "ingredientLines": List<dynamic>.from(ingredientLines.map((x) => x)),
+    "calories": calories,
+
+  };
 }

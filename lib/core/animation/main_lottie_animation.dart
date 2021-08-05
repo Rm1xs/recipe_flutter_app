@@ -35,7 +35,7 @@ class _MainLottieAnimation extends State<MainLottieAnimation>
                       () => Navigator.pushAndRemoveUntil(
                         context,
                         ScaleRoute(
-                          page: RecipePage(),
+                          page: RecipePage() ,
                         ),
                         (route) => false,
                       ),

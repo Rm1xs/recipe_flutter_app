@@ -1,11 +1,15 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:recipe_flutter_app/core/error/exeptions.dart';
 import 'package:recipe_flutter_app/domain/entities/recipe.dart';
 import 'package:http/http.dart' as http;
 
 abstract class RecipeRemoteDataSource {
   Future<Recipe> getRecipe(String recipe);
+
+  Future addRecipe(Recipe recipe);
 }
 
 class RecipeRemoteDataSourceImplementation implements RecipeRemoteDataSource {
@@ -33,5 +37,21 @@ class RecipeRemoteDataSourceImplementation implements RecipeRemoteDataSource {
     } else {
       throw ServerException();
     }
+  }
+
+  @override
+  Future addRecipe(Recipe recipeClass) async {
+    await Firebase.initializeApp();
+
+    //await deleteAllDocuments();
+
+    CollectionReference recipe =
+        FirebaseFirestore.instance.collection('Recipes');
+
+    recipeClass.hits.forEach((element) {
+      recipe.add(element.recipe.toJson());
+    });
+
+    return;
   }
 }

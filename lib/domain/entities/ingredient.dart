@@ -22,11 +22,4 @@ class Ingredient {
     image: json["image"] == null ? null : json["image"],
   );
 
-  Map<String, dynamic> toJson() => {
-    "text": text,
-    "weight": weight,
-    "foodCategory": foodCategory,
-    "foodId": foodId,
-    "image": image == null ? null : image,
-  };
 }

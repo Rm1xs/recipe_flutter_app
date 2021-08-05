@@ -11,4 +11,9 @@ class RecipeRepositoryImplementation implements RecipeRepository {
   Future<Recipe> getRecipe(String recipe) async {
     return await recipeRemoteDataSource.getRecipe(recipe);
   }
+
+  @override
+  Future addRecipe(Recipe recipe) async {
+    return await recipeRemoteDataSource.addRecipe(recipe);
+  }
 }

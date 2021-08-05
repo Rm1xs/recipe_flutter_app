@@ -14,10 +14,6 @@ class Recipe {
     hits: List<Hit>.from(json["hits"].map((x) => Hit.fromJson(x))),
   );
 
-  Map<String, dynamic> toJson() => {
-
-    "hits": List<dynamic>.from(hits.map((x) => x.toJson())),
-  };
 
 }
 

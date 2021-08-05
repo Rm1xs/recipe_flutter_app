@@ -12,6 +12,14 @@ class Loaded extends RecipeState {
   Loaded({required this.list});
 }
 
+
+class Saved extends RecipeState {
+  final Recipe data;
+
+  Saved({required this.data});
+}
+
+
 class Error extends RecipeState {
   final String message;
 

@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Recipe App',
-      theme: ThemeData(),
+      theme: ThemeData(primaryColor: Colors.brown,),
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.system,
       home: SafeArea(child: MainLottieAnimation()),

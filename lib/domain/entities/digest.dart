@@ -34,14 +34,4 @@ class Digest {
     sub: json["sub"] == null ? null : List<Digest>.from(json["sub"].map((x) => Digest.fromJson(x))),
   );
 
-  Map<String, dynamic> toJson() => {
-    "label": label,
-    "tag": tag,
-    "schemaOrgTag": schemaOrgTag == null ? null : schemaOrgTagValues.reverse![schemaOrgTag],
-    "total": total,
-    "hasRDI": hasRdi,
-    "daily": daily,
-    "unit": unitValues.reverse![unit],
-    "sub": sub == null ? null : List<dynamic>.from(sub!.map((x) => x.toJson())),
-  };
 }

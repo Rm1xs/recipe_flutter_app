@@ -27,5 +27,8 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
         yield Error(message: _e.toString());
       }
     }
+    else if (event is SaveRecipes) {
+      await useCaseImplementation.addRecipes(event.list);
+    }
   }
 }
