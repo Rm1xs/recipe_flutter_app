@@ -1,64 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
-class MainPage extends StatefulWidget {
+class AboutPage extends StatefulWidget {
+  const AboutPage({Key? key}) : super(key: key);
+
   @override
-  _MainPageState createState() => _MainPageState();
+  _AboutPageState createState() => _AboutPageState();
 }
 
-class _MainPageState extends State<MainPage> {
-  double scaffoldOpacity = 1.0;
-  bool isSettingsOpen = false;
+class _AboutPageState extends State<AboutPage> {
+
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+    buildSignature: 'Unknown',
+  );
+  @override
+  void initState() {
+    super.initState();
+    _initPackageInfo();
+  }
+
+  Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
+  }
+
+  Widget _infoTile(String title, String subtitle) {
+    return ListTile(
+      title: Text(title),
+      subtitle: Text(subtitle.isEmpty ? 'Not set' : subtitle),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        AnimatedOpacity(
-          opacity: scaffoldOpacity,
-          duration: Duration(milliseconds: 100),
-          child: Scaffold(
-            appBar: AppBar(
-              leading: FlatButton(
-                child: Icon(Icons.settings),
-                onPressed: () {
-                  setState(() {
-                    scaffoldOpacity = 0.3;
-                    isSettingsOpen = true;
-                  });
-                },
-              ),
-              title: Text('Main Page'),
-            ),
-            body: Container(
-              color: Colors.white,
-              child: Text('MAIN PAGE BODY'),
-            ),
-          ),
-        ),
-        Visibility(
-            visible: isSettingsOpen,
-            child: Container(
-              child: Column(
-                children: <Widget>[
-                  Text('Settings'),
-                  //Button,
-
-                  //Button to close settings dialog
-                  FlatButton(
-                    child: Icon(Icons.close),
-                    onPressed: () {
-                      setState(() {
-                        scaffoldOpacity = 1.0;
-                        isSettingsOpen = false;
-                      });
-                    },
-                  ),
-
-                  // rest of the settings page ui
-                ],
-              ),
-            )),
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('About'),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          _infoTile('App name', _packageInfo.appName),
+          _infoTile('Package name', _packageInfo.packageName),
+          _infoTile('App version', _packageInfo.version),
+          _infoTile('Build number', _packageInfo.buildNumber),
+          _infoTile('Build signature', _packageInfo.buildSignature),
+        ],
+      ),
     );
   }
 }

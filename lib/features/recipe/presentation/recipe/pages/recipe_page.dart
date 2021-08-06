@@ -168,11 +168,9 @@ void onSelected(BuildContext context, int item) {
     case 1:
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => MainPage()),
+        MaterialPageRoute(builder: (context) => AboutPage()),
       );
       break;
 
-
-      break;
   }
 }
