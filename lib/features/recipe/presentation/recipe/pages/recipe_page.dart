@@ -4,15 +4,16 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipe_flutter_app/core/animation/about_animation.dart';
 import 'package:recipe_flutter_app/domain/entities/recipe.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/bloc/bloc.dart';
-import 'package:recipe_flutter_app/features/recipe/presentation/widgets/loading_widget.dart';
-import 'package:recipe_flutter_app/features/recipe/presentation/widgets/message_display.dart';
-import 'package:recipe_flutter_app/features/recipe/presentation/widgets/recipe_controls.dart';
-import 'package:recipe_flutter_app/features/recipe/presentation/widgets/recipe_display.dart';
+import 'package:recipe_flutter_app/features/recipe/presentation/recipe/widgets/loading_widget.dart';
+import 'package:recipe_flutter_app/features/recipe/presentation/recipe/widgets/message_display.dart';
+import 'package:recipe_flutter_app/features/recipe/presentation/recipe/widgets/recipe_controls.dart';
+import 'package:recipe_flutter_app/features/recipe/presentation/recipe/widgets/recipe_display.dart';
+import 'package:recipe_flutter_app/features/recipe/presentation/recipe_history/presentation/pages/history_page.dart';
 
-
-import '../../../../injection_container.dart';
+import '../../../../../injection_container.dart';
 
 class RecipePage extends StatefulWidget {
   const RecipePage({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class RecipePage extends StatefulWidget {
 
 class _RecipePageState extends State<RecipePage> {
   Recipe data = Recipe(hits: []);
+  late bool visibility;
 
   String _connectionStatus = 'Unknown';
   final Connectivity _connectivity = Connectivity();
@@ -35,6 +37,7 @@ class _RecipePageState extends State<RecipePage> {
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
+
   @override
   void dispose() {
     _connectivitySubscription.cancel();
@@ -44,15 +47,17 @@ class _RecipePageState extends State<RecipePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
+      floatingActionButton: Visibility(
+        visible: visibility,
+        child: FloatingActionButton(
           onPressed: () {
-            sl<RecipeBloc>()
-                .add(SaveRecipes(list: data));
-            final snackBar = SnackBar(content: const Text('Data saved'));
+            sl<RecipeBloc>().add(SaveRecipes(list: data));
+            final snackBar = SnackBar(content: const Text('Recipes Saved'));
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
           child: Icon(Icons.save),
         ),
+      ),
       appBar: AppBar(
         title: Text('Recipes'),
         actions: <Widget>[
@@ -70,7 +75,6 @@ class _RecipePageState extends State<RecipePage> {
       ),
     );
   }
-
 
   BlocProvider<RecipeBloc> buildBody(BuildContext context) {
     return BlocProvider(
@@ -92,7 +96,9 @@ class _RecipePageState extends State<RecipePage> {
                     return LoadingWidget();
                   } else if (state is Loaded) {
                     data = state.list;
-                    return RecipeDisplay(recipe: state.list,);
+                    return RecipeDisplay(
+                      recipe: state.list,
+                    );
                   } else if (state is Error) {
                     return MessageDisplay(message: 'Error');
                   }
@@ -120,6 +126,7 @@ class _RecipePageState extends State<RecipePage> {
 
     return _updateConnectionStatus(result);
   }
+
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     switch (result) {
       case ConnectivityResult.wifi:
@@ -134,35 +141,38 @@ class _RecipePageState extends State<RecipePage> {
     }
   }
 
-  checkerInternet(){
-    if(_connectionStatus == ConnectivityResult.none.toString()){
+  checkerInternet() {
+    if (_connectionStatus == ConnectivityResult.none.toString()) {
+      visibility = false;
       return notify('No internet connection');
-    }
-    else if(_connectionStatus == ConnectivityResult.wifi.toString() ||  _connectionStatus == ConnectivityResult.mobile.toString()){
-      return notify('Connected');
-    }
-    else{
-      return notify('Failed to get connectivity');
+    } else {
+      visibility = true;
     }
   }
 
-  notify(String message){
+  notify(String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message),
     ));
   }
 }
+
 void onSelected(BuildContext context, int item) {
   switch (item) {
     case 0:
-      print('hi');
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HistoryPage()),
+      );
       break;
     case 1:
-      print('hi');
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MainPage()),
+      );
+      break;
+
+
       break;
   }
 }
-
-
-
-

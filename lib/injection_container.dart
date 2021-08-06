@@ -4,15 +4,21 @@ import 'package:recipe_flutter_app/core/datasources/recipe_remote_datasource.dar
 import 'package:recipe_flutter_app/features/recipe/data/repositories/recipe_repository_implementation.dart';
 import 'package:recipe_flutter_app/features/recipe/domain/repositories/recipe_repository.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/bloc/recipe_bloc.dart';
+import 'package:recipe_flutter_app/features/recipe/presentation/recipe_history/presentation/bloc/recipe_history_bloc.dart';
 
 import 'features/recipe/domain/usecases/usecase_implementation.dart';
 
 final sl = GetIt.instance;
-
+final sl2 = GetIt.instance;
 Future<void> init() async {
   sl.registerFactory(
     () => RecipeBloc(
       concrete: sl(),
+    ),
+  );
+  sl2.registerFactory(
+        () => HistoryBloc(
+       useCaseImplementation: sl2(),
     ),
   );
 

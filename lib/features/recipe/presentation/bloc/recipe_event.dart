@@ -16,3 +16,4 @@ class SaveRecipes extends RecipeEvent {
 
   SaveRecipes({required this.list});
 }
+
