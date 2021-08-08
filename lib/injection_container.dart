@@ -9,16 +9,16 @@ import 'package:recipe_flutter_app/features/recipe/presentation/recipe_history/p
 import 'features/recipe/domain/usecases/usecase_implementation.dart';
 
 final sl = GetIt.instance;
-final sl2 = GetIt.instance;
+//final sl2 = GetIt.instance;
 Future<void> init() async {
   sl.registerFactory(
     () => RecipeBloc(
       concrete: sl(),
     ),
   );
-  sl2.registerFactory(
+  sl.registerFactory(
         () => HistoryBloc(
-       useCaseImplementation: sl2(),
+       useCaseImplementation: sl(),
     ),
   );
 

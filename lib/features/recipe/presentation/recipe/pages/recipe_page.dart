@@ -24,7 +24,7 @@ class RecipePage extends StatefulWidget {
 
 class _RecipePageState extends State<RecipePage> {
   Recipe data = Recipe(hits: []);
-  late bool visibility;
+  bool visibility = false;
 
   String _connectionStatus = 'Unknown';
   final Connectivity _connectivity = Connectivity();
@@ -33,7 +33,10 @@ class _RecipePageState extends State<RecipePage> {
   @override
   void initState() {
     super.initState();
-    initConnectivity();
+
+    initConnectivity().whenComplete(() {
+      setState(() {});
+    });
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
@@ -65,7 +68,18 @@ class _RecipePageState extends State<RecipePage> {
             onSelected: (item) => onSelected(context, item),
             itemBuilder: (context) => [
               PopupMenuItem(value: 0, child: Text('History')),
-              PopupMenuItem(value: 1, child: Text('About')),
+              PopupMenuItem(
+                child: RaisedButton.icon(
+                  icon: Icon(Icons.info),
+                  label: Text('About'),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => AboutAnimation(),
+                    );
+                  },
+                ),
+              ),
             ],
           ),
         ],
@@ -94,7 +108,7 @@ class _RecipePageState extends State<RecipePage> {
                     );
                   } else if (state is Loading) {
                     return LoadingWidget();
-                  } else if (state is Loaded) {
+                  } else if (state is Loaded && state.list.hits.length >= 1) {
                     data = state.list;
                     return RecipeDisplay(
                       recipe: state.list,
@@ -168,9 +182,8 @@ void onSelected(BuildContext context, int item) {
     case 1:
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => AboutPage()),
+        MaterialPageRoute(builder: (context) => HistoryPage()),
       );
       break;
-
   }
 }

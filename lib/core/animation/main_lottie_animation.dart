@@ -26,8 +26,8 @@ class _MainLottieAnimation extends State<MainLottieAnimation>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Lottie.asset(
-              'assets/animations/60366-pizza-ingrediants.json',
+            Lottie.network(
+              'https://assets7.lottiefiles.com/packages/lf20_p1bmwqtk.json',
               controller: _controller,
               onLoaded: (composition) {
                 _controller!.duration = composition.duration;

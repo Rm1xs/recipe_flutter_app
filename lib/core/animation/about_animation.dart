@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-class AboutPage extends StatefulWidget {
-  const AboutPage({Key? key}) : super(key: key);
-
+class AboutAnimation extends StatefulWidget {
   @override
-  _AboutPageState createState() => _AboutPageState();
+  State<StatefulWidget> createState() => AboutAnimationState();
 }
 
-class _AboutPageState extends State<AboutPage> {
+class AboutAnimationState extends State<AboutAnimation>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation<Offset> position;
 
   PackageInfo _packageInfo = PackageInfo(
     appName: 'Unknown',
@@ -17,11 +18,6 @@ class _AboutPageState extends State<AboutPage> {
     buildNumber: 'Unknown',
     buildSignature: 'Unknown',
   );
-  @override
-  void initState() {
-    super.initState();
-    _initPackageInfo();
-  }
 
   Future<void> _initPackageInfo() async {
     final info = await PackageInfo.fromPlatform();
@@ -38,20 +34,43 @@ class _AboutPageState extends State<AboutPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    _initPackageInfo();
+
+    controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 450));
+    position = Tween<Offset>(begin: Offset(0.0, -4.0), end: Offset.zero)
+        .animate(
+            CurvedAnimation(parent: controller, curve: Curves.bounceInOut));
+
+    controller.addListener(() {
+      setState(() {});
+    });
+
+    controller.forward();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('About'),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          _infoTile('App name', _packageInfo.appName),
-          _infoTile('Package name', _packageInfo.packageName),
-          _infoTile('App version', _packageInfo.version),
-          _infoTile('Build number', _packageInfo.buildNumber),
-          _infoTile('Build signature', _packageInfo.buildSignature),
-        ],
+    return Center(
+      child: Material(
+        color: Colors.transparent,
+        child: SlideTransition(
+          position: position,
+          child: Container(
+            decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0))),
+            child: Padding(
+                padding: const EdgeInsets.all(50.0),
+                child: Container(
+                  child: _infoTile('App version', _packageInfo.version),
+                )),
+          ),
+        ),
       ),
     );
   }

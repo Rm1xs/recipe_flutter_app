@@ -10,5 +10,7 @@ abstract class UseCase<String> {
 
   Future<List<RecipeClass>> getRecipesDb();
 
-  //Future<List<Hit>> sortAsd();
+  //Future<List<Hit>> sortAsd(List sortList);
+
+  //Future<List<Hit>> sortDcr(List sortList);
 }
