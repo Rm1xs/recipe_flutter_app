@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:recipe_flutter_app/core/animation/scale_route.dart';
+import 'package:recipe_flutter_app/features/authorization/presentation/pages/auth/auth_page.dart';
+import 'package:recipe_flutter_app/features/authorization/presentation/pages/register_page.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe/pages/recipe_page.dart';
 
 class MainLottieAnimation extends StatefulWidget {
@@ -35,7 +37,7 @@ class _MainLottieAnimation extends State<MainLottieAnimation>
                       () => Navigator.pushAndRemoveUntil(
                         context,
                         ScaleRoute(
-                          page: RecipePage() ,
+                          page: AuthMainPage() ,
                         ),
                         (route) => false,
                       ),

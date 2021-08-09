@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_flutter_app/core/animation/main_lottie_animation.dart';
 import 'package:recipe_flutter_app/core/localization/app_localizations.dart';
@@ -8,8 +9,8 @@ void main() async {
 
   await di.init();
 
-  runApp(MyApp(),
-  );
+  Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
