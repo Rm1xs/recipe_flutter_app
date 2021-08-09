@@ -1,4 +1,4 @@
-abstract class AuthUseCase {
+abstract class AuthRemoteDataSource {
   Future checkAuth();
 
   Future logIn(String email, String password);
@@ -7,3 +7,4 @@ abstract class AuthUseCase {
 
   Future saveToken(String token);
 }
+

@@ -1,4 +1,4 @@
-abstract class AuthUseCase {
+abstract class AuthRepository {
   Future checkAuth();
 
   Future logIn(String email, String password);
