@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_flutter_app/domain/entities/recipe.dart';
-import 'package:recipe_flutter_app/domain/entities/recipe_class.dart';
 import 'package:recipe_flutter_app/features/recipe/domain/usecases/usecase_implementation.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/bloc/recipe_event.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/bloc/recipe_state.dart';

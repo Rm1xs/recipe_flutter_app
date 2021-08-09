@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:recipe_flutter_app/core/usecases/auth_usecase.dart';
 import 'package:recipe_flutter_app/features/authorization/domain/repositories/auth_repository.dart';
 
@@ -23,6 +24,16 @@ class AuthUseCaseImplementation implements AuthUseCase {
   @override
   Future signUp(String email, String password) async {
     return await repository.signUp(email, password);
+  }
+
+  @override
+  Future<User?> getUser() async {
+    return await repository.getUser();
+  }
+
+  @override
+  Future signOut() async {
+    return await repository.signOut();
   }
 
 }
