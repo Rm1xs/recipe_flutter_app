@@ -7,7 +7,7 @@ abstract class AuthUseCase {
 
   Future signUp(String email, String password);
 
-  Future saveToken(String token);
+  Future saveToken();
 
   Future<User?> getUser();
 

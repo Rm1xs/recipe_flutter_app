@@ -30,7 +30,9 @@ class AuthenticationBloc
   }
 
   //AuthenticationLoggedIn
-
+  //Stream<AuthState> _mapAuthenticationLoggedInToState() async* {
+    //yield AuthenticationSuccess(await _userRepository.getUser());
+  //}
 
   // AuthenticationStarted
   Stream<AuthState> _mapAuthenticationStartedToState() async* {

@@ -67,17 +67,56 @@ class _RecipePageState extends State<RecipePage> {
           PopupMenuButton<int>(
             onSelected: (item) => onSelected(context, item),
             itemBuilder: (context) => [
-              PopupMenuItem(value: 0, child: Text('History')),
+              PopupMenuItem(child: Padding(
+                padding: const EdgeInsets.fromLTRB(8, 0 ,8 ,0),
+                child: Container(
+                  width: 120,
+                  child: RaisedButton.icon(
+                    icon: Icon(Icons.history),
+                    label: Text('History'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HistoryPage()),
+                      );
+                    },
+                  ),
+                ),
+              ),),
               PopupMenuItem(
-                child: RaisedButton.icon(
-                  icon: Icon(Icons.info),
-                  label: Text('About'),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (_) => AboutAnimation(),
-                    );
-                  },
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0 ,8 ,0),
+                  child: Container(
+                    width: 120,
+                    child: RaisedButton.icon(
+                      icon: Icon(Icons.info),
+                      label: Text('About'),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => AboutAnimation(),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              PopupMenuItem(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0 ,8 ,0),
+                  child: Container(
+                    width: 120,
+                    child: RaisedButton.icon(
+                      icon: Icon(Icons.logout),
+                      label: Text('Sign Out'),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => AboutAnimation(),
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ),
             ],

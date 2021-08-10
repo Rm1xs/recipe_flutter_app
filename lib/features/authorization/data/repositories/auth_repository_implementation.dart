@@ -18,8 +18,8 @@ class AuthRepositoryImplementation implements AuthRepository {
   }
 
   @override
-  Future saveToken(String token) async {
-    return await authRemoteDataSource.saveToken(token);
+  Future saveToken() async {
+    return await authRemoteDataSource.saveToken();
   }
 
   @override

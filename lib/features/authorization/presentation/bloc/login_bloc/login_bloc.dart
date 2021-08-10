@@ -36,6 +36,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     yield LoginState.loading();
     try {
       await _userRepository.logIn(email, password);
+      await _userRepository.saveToken();
       yield LoginState.success();
     } catch (_) {
       yield LoginState.failure();

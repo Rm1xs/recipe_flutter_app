@@ -1,40 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_event.dart';
-import 'package:recipe_flutter_app/features/authorization/presentation/bloc/register_bloc/register_bloc.dart';
-import 'package:recipe_flutter_app/features/authorization/presentation/bloc/register_bloc/register_event.dart';
-import 'package:recipe_flutter_app/features/authorization/presentation/bloc/register_bloc/register_state.dart';
+import 'package:recipe_flutter_app/features/authorization/presentation/bloc/login_bloc/login_bloc.dart';
+import 'package:recipe_flutter_app/features/authorization/presentation/bloc/login_bloc/login_event.dart';
+import 'package:recipe_flutter_app/features/authorization/presentation/bloc/login_bloc/login_state.dart';
+import 'package:recipe_flutter_app/features/authorization/presentation/pages/register/register_page.dart';
+import 'package:recipe_flutter_app/features/recipe/presentation/recipe/pages/recipe_page.dart';
 
-class RegisterForm extends StatefulWidget {
+class LoginForm extends StatefulWidget {
   @override
   _LoginFormState createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<RegisterForm> {
+class _LoginFormState extends State<LoginForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   bool get isPopulated =>
       _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
 
-  bool isButtonEnabled(RegisterState state) {
-    return state.isFormValid && isPopulated && !state.isSubmitting;
+  bool isButtonEnabled(LoginState state) {
+    return state.isFormValid && isPopulated;
   }
 
-  late RegisterBloc _registerBloc;
+  late LoginBloc _loginBloc;
 
   @override
   void initState() {
     super.initState();
-    _registerBloc = BlocProvider.of<RegisterBloc>(context);
+    _loginBloc = BlocProvider.of<LoginBloc>(context);
     _emailController.addListener(_onEmailChange);
     _passwordController.addListener(_onPasswordChange);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<RegisterBloc, RegisterState>(
+    return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.isFailure) {
           Scaffold.of(context)
@@ -44,7 +44,7 @@ class _LoginFormState extends State<RegisterForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('Register Failure'),
+                    Text('Login Failure'),
                     Icon(Icons.error),
                   ],
                 ),
@@ -61,7 +61,7 @@ class _LoginFormState extends State<RegisterForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('Registering...'),
+                    Text('Logging In...'),
                     CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     )
@@ -73,13 +73,30 @@ class _LoginFormState extends State<RegisterForm> {
         }
 
         if (state.isSuccess) {
-          BlocProvider.of<AuthenticationBloc>(context).add(
-            AuthenticationLoggedIn(),
+          Scaffold.of(context)
+            ..removeCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Successes logIn'),
+                    CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    )
+                  ],
+                ),
+                backgroundColor: Color(0xffffae88),
+              ),
+            );
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => RecipePage()),
+            (route) => false,
           );
-          Navigator.pop(context);
         }
       },
-      child: BlocBuilder<RegisterBloc, RegisterState>(
+      child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
           return Padding(
             padding: const EdgeInsets.all(20.0),
@@ -96,7 +113,7 @@ class _LoginFormState extends State<RegisterForm> {
                     autovalidate: true,
                     autocorrect: false,
                     validator: (_) {
-                      return !state.isEmailValid ? 'Invalid Email' : null;
+                      return !state.isEmailValid ? 'Invalid Email' : '';
                     },
                   ),
                   TextFormField(
@@ -109,22 +126,30 @@ class _LoginFormState extends State<RegisterForm> {
                     autovalidate: true,
                     autocorrect: false,
                     validator: (_) {
-                      return !state.isPasswordValid ? 'Invalid Password' : null;
+                      return !state.isPasswordValid ? 'Invalid Password' : '';
                     },
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 10,
                   ),
                   ElevatedButton(
-
                     onPressed: () {
                       if (isButtonEnabled(state)) {
                         _onFormSubmitted();
                       }
-                    }, child: Text('Button'),
+                    },
+                    child: Text('LogIn'),
                   ),
                   SizedBox(
                     height: 10,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                        return RegisterScreen();
+                      }));
+                    },
+                    child: Text('Register'),
                   ),
                 ],
               ),
@@ -135,17 +160,23 @@ class _LoginFormState extends State<RegisterForm> {
     );
   }
 
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   void _onEmailChange() {
-    _registerBloc.add(RegisterEmailChanged(email: _emailController.text));
+    _loginBloc.add(LoginEmailChange(email: _emailController.text));
   }
 
   void _onPasswordChange() {
-    _registerBloc
-        .add(RegisterPasswordChanged(password: _passwordController.text));
+    _loginBloc.add(LoginPasswordChanged(password: _passwordController.text));
   }
 
   void _onFormSubmitted() {
-    _registerBloc.add(RegisterSubmitted(
+    _loginBloc.add(LoginWithCredentialsPressed(
         email: _emailController.text, password: _passwordController.text));
   }
 }

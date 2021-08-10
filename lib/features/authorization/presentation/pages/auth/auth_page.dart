@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_state.dart';
+import 'package:recipe_flutter_app/features/authorization/presentation/pages/login/login_page.dart';
 
 import '../../../../../injection_container.dart';
 
@@ -22,19 +23,35 @@ class _AuthMainPageState extends State<AuthMainPage> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Expanded(child: BlocBuilder<AuthenticationBloc, AuthState>(
-              builder: (context, state) {
-                if (state is AuthenticationInitial) {
-                  return Container(child: Text('Hi'),);
-                }
+            Expanded(
+              child: BlocBuilder<AuthenticationBloc, AuthState>(
+                builder: (context, state) {
+                  if (state is AuthenticationInitial) {
+                    return Container(
+                      child: Center(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()),
+                            );
+                          },
+                          child: Text('Go to Auth'),
+                        ),
+                      ),
+                    );
+                  }
 
-                return Container(child: Text('Hi2'),);
-              },
-            ),),
+                  return Container(
+                    child: Text('Hi2'),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 }
-

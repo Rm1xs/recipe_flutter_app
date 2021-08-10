@@ -17,8 +17,8 @@ class AuthUseCaseImplementation implements AuthUseCase {
   }
 
   @override
-  Future saveToken(String token) async {
-    return await repository.saveToken(token);
+  Future saveToken() async {
+    return await repository.saveToken();
   }
 
   @override

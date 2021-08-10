@@ -32,10 +32,25 @@ class _RecipeDisplayState extends State<RecipeDisplay> {
                 setState(() {
                   widget.recipe.hits.removeAt(index);
                 });
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
                     content: Text(
-                        '${widget.recipe.hits[index].recipe.label} dismissed')));
+                        '${widget.recipe.hits[index].recipe.label} dismissed'),
+                  ),
+                );
               },
+              background: Container(
+                color: Colors.red[400],
+                child: Center(
+                  child: Text(
+                    'Delete',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.white),
+                  ),
+                ),
+              ),
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(

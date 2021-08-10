@@ -85,9 +85,9 @@ class RegisterState {
     bool? isFailure,
   }) {
     return RegisterState(
-      isEmailValid: isEmailValid ? this.isEmailValid : false,
-      isPasswordValid: isPasswordValid ? this.isPasswordValid : false,
-      isSubmitting: isSubmitting ? this.isSubmitting : false,
+      isEmailValid: isEmailValid ? this.isEmailValid : this.isEmailValid,
+      isPasswordValid: isPasswordValid ? this.isPasswordValid : this.isPasswordValid,
+      isSubmitting: isSubmitting ? this.isSubmitting : this.isSubmitting,
       isSuccess: isSuccess ?? this.isSuccess,
       isFailure: isFailure ?? this.isFailure,
     );

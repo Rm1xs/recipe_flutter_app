@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:recipe_flutter_app/core/error/exeptions.dart';
 import 'package:recipe_flutter_app/domain/entities/hit.dart';
@@ -45,10 +46,13 @@ class RecipeRemoteDataSourceImplementation implements RecipeRemoteDataSource {
 
   @override
   Future addRecipe(Recipe recipeClass) async {
+    final tokenResult = await FirebaseAuth.instance.currentUser!;
+    final idToken = await tokenResult.uid;
+
     await Firebase.initializeApp();
 
     CollectionReference recipe =
-        FirebaseFirestore.instance.collection('Recipes');
+        FirebaseFirestore.instance.collection('Recipes-${idToken.toString()}');
 
     await deleteRecipe(recipe);
 
@@ -58,7 +62,10 @@ class RecipeRemoteDataSourceImplementation implements RecipeRemoteDataSource {
   }
 
   Future deleteRecipe(CollectionReference ref) async{
-    var collection = FirebaseFirestore.instance.collection('Recipes');
+    final tokenResult = await FirebaseAuth.instance.currentUser!;
+    final idToken = await tokenResult.uid;
+
+    var collection = FirebaseFirestore.instance.collection('Recipes-${idToken.toString()}');
     var snapshots = await collection.get();
     for (var doc in snapshots.docs) {
       await doc.reference.delete();
@@ -67,8 +74,11 @@ class RecipeRemoteDataSourceImplementation implements RecipeRemoteDataSource {
 
   @override
   Future<List<RecipeClass>> getRecipesDb() async {
+    final tokenResult = await FirebaseAuth.instance.currentUser!;
+    final idToken = await tokenResult.uid;
+
     await Firebase.initializeApp();
-    final db = await FirebaseFirestore.instance.collection('Recipes').get();
+    final db = await FirebaseFirestore.instance.collection('Recipes-${idToken.toString()}').get();
 
     final result = db.docs;
     final temp = [];

@@ -1,15 +1,19 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_flutter_app/core/animation/main_lottie_animation.dart';
-import 'package:recipe_flutter_app/core/localization/app_localizations.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
+
+
   WidgetsFlutterBinding.ensureInitialized();
 
   await di.init();
 
-  Firebase.initializeApp();
+  Firebase.initializeApp().whenComplete(() {
+    print("completed init");
+  });
+
   runApp(MyApp());
 }
 

@@ -12,5 +12,4 @@ class AuthenticationSuccess extends AuthState {
   AuthenticationSuccess(this.firebaseUser);
 }
 
-
 class AuthenticationFailure extends AuthState {}
