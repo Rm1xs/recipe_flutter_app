@@ -36,7 +36,7 @@ dependencies:
 
   package_info_plus: ^1.0.4
 
-  #flutter_secure_storage: ^4.2.1
+  flutter_secure_storage: ^4.2.1
 
 
 dev_dependencies:

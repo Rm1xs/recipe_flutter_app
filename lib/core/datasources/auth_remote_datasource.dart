@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 abstract class AuthRemoteDataSource {
   Future checkAuth();
@@ -16,7 +17,7 @@ abstract class AuthRemoteDataSource {
 
 class AuthRemoteDataSourceImplementation implements AuthRemoteDataSource {
   final FirebaseAuth _firebaseAuth;
-  //final storage = new FlutterSecureStorage();
+  final storage = new FlutterSecureStorage();
 
   AuthRemoteDataSourceImplementation()
       : _firebaseAuth = FirebaseAuth.instance;
@@ -37,7 +38,7 @@ class AuthRemoteDataSourceImplementation implements AuthRemoteDataSource {
 
     final idToken = await _firebaseAuth.currentUser!.getIdToken();
     var t = idToken;
-    //await storage.write(key: 'authToken', value: idToken);
+    await storage.write(key: 'authToken', value: idToken);
   }
 
   @override
