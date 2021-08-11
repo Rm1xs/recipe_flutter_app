@@ -1,4 +1,4 @@
-import 'package:recipe_flutter_app/domain/entities/recipe.dart';
+import 'package:recipe_flutter_app/core/data/models/recipe_model.dart';
 
 abstract class RecipeEvent {
 
@@ -12,7 +12,7 @@ class GetRecipe extends RecipeEvent {
 
 }
 class SaveRecipes extends RecipeEvent {
-  final Recipe list;
+  final RecipeModel list;
 
   SaveRecipes({required this.list});
 }

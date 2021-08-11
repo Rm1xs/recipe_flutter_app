@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_flutter_app/domain/entities/recipe.dart';
+import 'package:recipe_flutter_app/core/data/models/recipe_model.dart';
 import 'package:recipe_flutter_app/features/recipe/domain/usecases/usecase_implementation.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/bloc/recipe_event.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/bloc/recipe_state.dart';
@@ -16,18 +16,18 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
 
   @override
   Stream<RecipeState> mapEventToState(
-      RecipeEvent event,
-      ) async* {
+    RecipeEvent event,
+  ) async* {
     if (event is GetRecipe) {
       yield Loading();
       try {
-        final Recipe _loaded = await useCaseImplementation.getRecipe(Params(query: event.inputString));
+        final RecipeModel _loaded = await useCaseImplementation
+            .getRecipe(Params(query: event.inputString));
         yield Loaded(list: _loaded);
       } catch (_e) {
         yield Error(message: _e.toString());
       }
-    }
-    else if (event is SaveRecipes) {
+    } else if (event is SaveRecipes) {
       await useCaseImplementation.addRecipes(event.list);
     }
   }

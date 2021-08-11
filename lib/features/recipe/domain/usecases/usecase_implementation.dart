@@ -1,6 +1,9 @@
-import 'package:recipe_flutter_app/core/usecases/usecases.dart';
-import 'package:recipe_flutter_app/domain/entities/recipe.dart';
-import 'package:recipe_flutter_app/domain/entities/recipe_class.dart';
+import 'package:recipe_flutter_app/core/data/models/recipe_class_,model.dart';
+import 'package:recipe_flutter_app/core/data/models/recipe_model.dart';
+import 'package:recipe_flutter_app/core/domain/entities/hit.dart';
+import 'package:recipe_flutter_app/core/domain/entities/recipe.dart';
+import 'package:recipe_flutter_app/core/domain/entities/recipe_class.dart';
+import 'package:recipe_flutter_app/core/domain/usecases/recipe_usecase.dart';
 import 'package:recipe_flutter_app/features/recipe/domain/repositories/recipe_repository.dart';
 
 class UseCaseImplementation implements UseCase<String> {
@@ -14,13 +17,19 @@ class UseCaseImplementation implements UseCase<String> {
   }
 
   @override
-  Future addRecipes(Recipe recipe) async {
+  Future addRecipes(RecipeModel recipe) async {
     return await repository.addRecipe(recipe);
   }
 
   @override
-  Future<List<RecipeClass>> getRecipesDb() async {
+  Future<List<RecipeClassModel>> getRecipesDb() async {
     return await repository.getRecipesDb();
+  }
+
+  @override
+  Future<List<Hit>> sort(List<dynamic> sortList) {
+    // TODO: implement sort
+    throw UnimplementedError();
   }
 }
 

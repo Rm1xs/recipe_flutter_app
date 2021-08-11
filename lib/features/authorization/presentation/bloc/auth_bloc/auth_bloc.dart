@@ -3,8 +3,7 @@ import 'package:recipe_flutter_app/features/authorization/domain/usecases/auth_u
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_event.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_state.dart';
 
-class AuthenticationBloc
-    extends Bloc<AuthEvent, AuthState> {
+class AuthenticationBloc extends Bloc<AuthEvent, AuthState> {
   final AuthUseCaseImplementation _userRepository;
 
   AuthenticationBloc({
@@ -13,25 +12,25 @@ class AuthenticationBloc
         super(AuthenticationInitial());
 
   @override
-  Stream<AuthState> mapEventToState(
-      AuthEvent event) async* {
+  Stream<AuthState> mapEventToState(AuthEvent event) async* {
     if (event is AuthenticationStarted) {
       yield* _mapAuthenticationStartedToState();
-    }
-    else if (event is AuthenticationLoggedOut) {
+    } else if (event is AuthenticationLoggedOut) {
       yield* _mapAuthenticationLoggedOutInToState();
+    } else if (event is AuthenticationLoggedChek) {
+      yield* _mapAuthenticationStartedToState();
     }
   }
 
   //AuthenticationLoggedOut
   Stream<AuthState> _mapAuthenticationLoggedOutInToState() async* {
-    yield AuthenticationFailure();
+    yield Logout();
     _userRepository.signOut();
   }
 
   //AuthenticationLoggedIn
   //Stream<AuthState> _mapAuthenticationLoggedInToState() async* {
-    //yield AuthenticationSuccess(await _userRepository.getUser());
+  //yield AuthenticationSuccess(await _userRepository.getUser());
   //}
 
   // AuthenticationStarted
@@ -39,9 +38,10 @@ class AuthenticationBloc
     final isSignedIn = await _userRepository.checkAuth();
     if (isSignedIn) {
       final firebaseUser = await _userRepository.getUser();
-      yield AuthenticationSuccess(firebaseUser!);
+      yield UserLogged(firebaseUser!);
     } else {
-      yield AuthenticationFailure();
+      //final firebaseUserStorage = await _userRepository.;
+      yield UserNeedsToLogIn();
     }
   }
 }

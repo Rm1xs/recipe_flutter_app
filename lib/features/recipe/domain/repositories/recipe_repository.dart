@@ -1,10 +1,10 @@
-import 'package:recipe_flutter_app/domain/entities/recipe.dart';
-import 'package:recipe_flutter_app/domain/entities/recipe_class.dart';
+import 'package:recipe_flutter_app/core/data/models/recipe_class_,model.dart';
+import 'package:recipe_flutter_app/core/data/models/recipe_model.dart';
 
 abstract class RecipeRepository {
-  Future<Recipe> getRecipe(String recipe);
+  Future<RecipeModel> getRecipe(String recipe);
 
-  Future addRecipe(Recipe recipe);
+  Future addRecipe(RecipeModel recipe);
 
-  Future<List<RecipeClass>> getRecipesDb();
+  Future<List<RecipeClassModel>> getRecipesDb();
 }

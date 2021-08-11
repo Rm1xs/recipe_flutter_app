@@ -5,14 +5,9 @@ import 'package:recipe_flutter_app/features/authorization/presentation/pages/reg
 
 import '../../../../../injection_container.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 
-  @override
-  _RegisterScreenState createState() => _RegisterScreenState();
-}
-
-class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,21 +19,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
     );
   }
-}
 
-BlocProvider<RegisterBloc> buildBody(BuildContext context) {
-  return BlocProvider(
-    create: (_) => sl<RegisterBloc>(),
-    child: Center(
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 10),
-            Container(child: RegisterForm())
-          ],
+  BlocProvider<RegisterBloc> buildBody(BuildContext context) {
+    return BlocProvider(
+      create: (_) => sl<RegisterBloc>(),
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 10),
+              Container(child: RegisterForm())
+            ],
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }

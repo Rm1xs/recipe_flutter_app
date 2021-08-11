@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_flutter_app/domain/entities/hit.dart';
+import 'package:recipe_flutter_app/core/data/models/hit_model.dart';
 
 class DetailsPage extends StatelessWidget {
-  final Hit recipe;
+  final HitModel recipe;
   final int index;
 
   const DetailsPage({Key? key, required this.recipe, required this.index})

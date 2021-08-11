@@ -4,7 +4,6 @@ class LoginEmailChange extends LoginEvent {
   final String email;
 
   LoginEmailChange({required this.email});
-
 }
 
 class LoginPasswordChanged extends LoginEvent {

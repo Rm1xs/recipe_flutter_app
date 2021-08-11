@@ -37,7 +37,7 @@ class _LoginFormState extends State<LoginForm> {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.isFailure) {
-          Scaffold.of(context)
+          ScaffoldMessenger.of(context)
             ..removeCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
@@ -54,7 +54,7 @@ class _LoginFormState extends State<LoginForm> {
         }
 
         if (state.isSubmitting) {
-          Scaffold.of(context)
+          ScaffoldMessenger.of(context)
             ..removeCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
@@ -73,7 +73,7 @@ class _LoginFormState extends State<LoginForm> {
         }
 
         if (state.isSuccess) {
-          Scaffold.of(context)
+          ScaffoldMessenger.of(context)
             ..removeCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
@@ -104,52 +104,51 @@ class _LoginFormState extends State<LoginForm> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
+                    autovalidateMode: AutovalidateMode.always,
                     controller: _emailController,
                     decoration: InputDecoration(
                       icon: Icon(Icons.email),
                       labelText: "Email",
                     ),
                     keyboardType: TextInputType.emailAddress,
-                    autovalidate: true,
                     autocorrect: false,
                     validator: (_) {
                       return !state.isEmailValid ? 'Invalid Email' : '';
                     },
                   ),
                   TextFormField(
+                    autovalidateMode: AutovalidateMode.always,
                     controller: _passwordController,
                     decoration: InputDecoration(
                       icon: Icon(Icons.lock),
                       labelText: "Password",
                     ),
                     obscureText: true,
-                    autovalidate: true,
                     autocorrect: false,
                     validator: (_) {
                       return !state.isPasswordValid ? 'Invalid Password' : '';
                     },
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (isButtonEnabled(state)) {
-                        _onFormSubmitted();
-                      }
-                    },
-                    child: Text('LogIn'),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) {
-                        return RegisterScreen();
-                      }));
-                    },
-                    child: Text('Register'),
+                  Column(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          if (isButtonEnabled(state)) {
+                            _onFormSubmitted();
+                          }
+                        },
+                        child: Text('LogIn'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (_) {
+                            return RegisterScreen();
+                          }));
+                        },
+                        child: Text('Register'),
+                      ),
+                    ],
                   ),
                 ],
               ),

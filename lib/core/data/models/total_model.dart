@@ -1,7 +1,7 @@
-import 'package:recipe_flutter_app/domain/entities/enums.dart';
+import 'package:recipe_flutter_app/core/data/models/enum_model.dart';
 
-class Total {
-  Total({
+class TotalModel {
+  TotalModel({
     required this.label,
     required this.quantity,
     required this.unit,
@@ -12,7 +12,7 @@ class Total {
   Unit? unit;
 
 
-  factory Total.fromJson(Map<String, dynamic> json) => Total(
+  factory TotalModel.fromJson(Map<String, dynamic> json) => TotalModel(
     label: json["label"],
     quantity: json["quantity"].toDouble(),
     unit: unitValues.map[json["unit"]],

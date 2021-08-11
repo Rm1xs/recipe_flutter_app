@@ -1,4 +1,3 @@
-
 class LoginState {
   final bool isEmailValid;
   final bool isPasswordValid;
@@ -10,10 +9,10 @@ class LoginState {
 
   LoginState(
       {required this.isEmailValid,
-        required this.isPasswordValid,
-        required this.isSubmitting,
-        required this.isSuccess,
-        required this.isFailure});
+      required this.isPasswordValid,
+      required this.isSubmitting,
+      required this.isSuccess,
+      required this.isFailure});
 
   factory LoginState.initial() {
     return LoginState(
@@ -66,6 +65,7 @@ class LoginState {
       isFailure: false,
     );
   }
+
   LoginState updatePassword({
     required bool isPasswordValid,
   }) {
@@ -87,7 +87,8 @@ class LoginState {
   }) {
     return LoginState(
       isEmailValid: isEmailValid ? this.isEmailValid : this.isEmailValid,
-      isPasswordValid: isPasswordValid ? this.isPasswordValid : this.isPasswordValid,
+      isPasswordValid:
+          isPasswordValid ? this.isPasswordValid : this.isPasswordValid,
       isSubmitting: isSubmitting ? this.isSubmitting : this.isSubmitting,
       isSuccess: isSuccess ? this.isSuccess : this.isSuccess,
       isFailure: isFailure ? this.isFailure : this.isFailure,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_flutter_app/domain/entities/recipe.dart';
+import 'package:recipe_flutter_app/core/domain/entities/recipe.dart';
 
 class RecipeDisplay extends StatelessWidget {
   final Recipe recipe;

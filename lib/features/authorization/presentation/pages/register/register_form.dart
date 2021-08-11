@@ -80,7 +80,9 @@ class _LoginFormState extends State<RegisterForm> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text('Successfully registered'),
-                    Icon(Icons.check_circle,)
+                    Icon(
+                      Icons.check_circle,
+                    )
                   ],
                 ),
                 backgroundColor: Color(0xffffae88),
@@ -89,11 +91,11 @@ class _LoginFormState extends State<RegisterForm> {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => LoginPage()),
-                (route) => false,
+            (route) => false,
           );
 
           //BlocProvider.of<AuthenticationBloc>(context).add(
-            //AuthenticationLoggedIn(),
+          //AuthenticationLoggedIn(),
           //);
           //Navigator.pop(context);
         }
@@ -137,7 +139,7 @@ class _LoginFormState extends State<RegisterForm> {
                   ElevatedButton(
                     onPressed: () {
                       if (isButtonEnabled(state)) {
-                      _onFormSubmitted();
+                        _onFormSubmitted();
                       }
                     },
                     child: Text('Register'),

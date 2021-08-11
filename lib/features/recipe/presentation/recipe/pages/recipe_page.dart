@@ -4,8 +4,12 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_flutter_app/core/animation/about_animation.dart';
-import 'package:recipe_flutter_app/domain/entities/recipe.dart';
+import 'package:recipe_flutter_app/core/animation/about_animation_page.dart';
+import 'package:recipe_flutter_app/core/data/models/recipe_model.dart';
+import 'package:recipe_flutter_app/core/localization/app_localizations.dart';
+import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_event.dart';
+import 'package:recipe_flutter_app/features/authorization/presentation/pages/controls/sign_out_page.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/bloc/bloc.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe/widgets/loading_widget.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe/widgets/message_display.dart';
@@ -23,7 +27,7 @@ class RecipePage extends StatefulWidget {
 }
 
 class _RecipePageState extends State<RecipePage> {
-  Recipe data = Recipe(hits: []);
+  RecipeModel data = RecipeModel(hits: []);
   bool visibility = false;
 
   String _connectionStatus = 'Unknown';
@@ -67,30 +71,35 @@ class _RecipePageState extends State<RecipePage> {
           PopupMenuButton<int>(
             onSelected: (item) => onSelected(context, item),
             itemBuilder: (context) => [
-              PopupMenuItem(child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 0 ,8 ,0),
-                child: Container(
-                  width: 120,
-                  child: RaisedButton.icon(
-                    icon: Icon(Icons.history),
-                    label: Text('History'),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HistoryPage()),
-                      );
-                    },
-                  ),
-                ),
-              ),),
               PopupMenuItem(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0 ,8 ,0),
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  child: Container(
+                    width: 120,
+                    child: RaisedButton.icon(
+                      icon: Icon(Icons.history),
+                      label: Text('History'),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HistoryPage()),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              PopupMenuItem(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: Container(
                     width: 120,
                     child: RaisedButton.icon(
                       icon: Icon(Icons.info),
-                      label: Text('About'),
+                      label: Text(AppLocalizations.of(context)!
+                          .translate('about_button')
+                          .toString()),
                       onPressed: () {
                         showDialog(
                           context: context,
@@ -102,22 +111,7 @@ class _RecipePageState extends State<RecipePage> {
                 ),
               ),
               PopupMenuItem(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0 ,8 ,0),
-                  child: Container(
-                    width: 120,
-                    child: RaisedButton.icon(
-                      icon: Icon(Icons.logout),
-                      label: Text('Sign Out'),
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (_) => AboutAnimation(),
-                        );
-                      },
-                    ),
-                  ),
-                ),
+                child: SignOutPage(context),
               ),
             ],
           ),

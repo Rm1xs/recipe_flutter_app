@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:recipe_flutter_app/core/usecases/auth_usecase.dart';
+import 'package:recipe_flutter_app/core/domain/usecases/auth_usecase.dart';
 import 'package:recipe_flutter_app/features/authorization/domain/repositories/auth_repository.dart';
 
 class AuthUseCaseImplementation implements AuthUseCase {

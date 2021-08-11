@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_flutter_app/domain/entities/recipe.dart';
+import 'package:recipe_flutter_app/core/data/models/recipe_model.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe_details/presentation/pages/details_page.dart';
 
 class RecipeDisplay extends StatefulWidget {
-  final Recipe recipe;
+  final RecipeModel recipe;
 
   const RecipeDisplay({
     Key? key,

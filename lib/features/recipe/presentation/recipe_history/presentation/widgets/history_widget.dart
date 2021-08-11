@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_flutter_app/domain/entities/hit.dart';
+import 'package:recipe_flutter_app/core/data/models/hit_model.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe_details/presentation/pages/details_page.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe_history/presentation/bloc/recipe_history_bloc.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe_history/presentation/bloc/recipe_history_state.dart';
@@ -25,10 +25,11 @@ class History extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => DetailsPage(
-                                recipe: Hit(recipe: state.recipes[index]),
-                                index: index,
-                              )),
+                        builder: (context) => DetailsPage(
+                          recipe: HitModel(recipe: state.recipes[index]),
+                          index: index,
+                        ),
+                      ),
                     );
                   },
                   child: ListTile(
