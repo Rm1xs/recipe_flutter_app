@@ -16,6 +16,7 @@ abstract class RecipeRemoteDataSource {
   Future<void> addRecipe(RecipeModel recipe);
 
   Future<List<RecipeClassModel>> getRecipesDb();
+
 }
 
 class RecipeRemoteDataSourceImplementation implements RecipeRemoteDataSource {
@@ -39,6 +40,7 @@ class RecipeRemoteDataSourceImplementation implements RecipeRemoteDataSource {
     if (response.statusCode == 200) {
       final RecipeModel data = RecipeModel.fromJson(json.decode(response.body));
 
+      data.hits.sort((a, b) => a.recipe.calories.compareTo(b.recipe.calories));
       return data;
     } else {
       throw ServerException();
@@ -88,6 +90,9 @@ class RecipeRemoteDataSourceImplementation implements RecipeRemoteDataSource {
       temp.add(element.data());
     });
 
-    return temp.map((e) => RecipeClassModel.fromJson(e)).toList();
+    var data = temp.map((e) => RecipeClassModel.fromJson(e)).toList();
+
+
+    return data;
   }
 }

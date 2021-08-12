@@ -11,7 +11,7 @@ class AuthRepositoryImplementation implements AuthRepository {
   @override
   Future checkAuth() async {
     final currentUser = _firebaseAuth.currentUser;
-    //String? value = await storage.read(key: 'authToken');
+    await storage.read(key: 'authToken');
 
     return currentUser != null;
   }
