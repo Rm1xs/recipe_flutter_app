@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_flutter_app/core/utils/validators.dart';
 import 'package:recipe_flutter_app/features/authorization/domain/usecases/auth_usecase_implementation.dart';
@@ -5,6 +6,7 @@ import 'package:recipe_flutter_app/features/authorization/presentation/bloc/regi
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/register_bloc/register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final AuthUseCaseImplementation _userRepository;
 
   RegisterBloc({required AuthUseCaseImplementation userRepository})

@@ -36,7 +36,7 @@ class _LoginFormState extends State<RegisterForm> {
     return BlocListener<RegisterBloc, RegisterState>(
       listener: (context, state) {
         if (state.isFailure) {
-          Scaffold.of(context)
+          ScaffoldMessenger.of(context)
             ..removeCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
@@ -53,7 +53,7 @@ class _LoginFormState extends State<RegisterForm> {
         }
 
         if (state.isSubmitting) {
-          Scaffold.of(context)
+          ScaffoldMessenger.of(context)
             ..removeCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
@@ -72,7 +72,7 @@ class _LoginFormState extends State<RegisterForm> {
         }
 
         if (state.isSuccess) {
-          Scaffold.of(context)
+          ScaffoldMessenger.of(context)
             ..removeCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
@@ -108,29 +108,27 @@ class _LoginFormState extends State<RegisterForm> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                    controller: _emailController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction, controller: _emailController,
                     decoration: InputDecoration(
                       icon: Icon(Icons.email),
                       labelText: "Email",
                     ),
                     keyboardType: TextInputType.emailAddress,
-                    autovalidate: true,
                     autocorrect: false,
                     validator: (_) {
-                      return !state.isEmailValid ? 'Invalid Email' : '';
+                      return !state.isEmailValid ? 'Invalid Email' : null;
                     },
                   ),
                   TextFormField(
-                    controller: _passwordController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction, controller: _passwordController,
                     decoration: InputDecoration(
                       icon: Icon(Icons.lock),
                       labelText: "Password",
                     ),
                     obscureText: true,
-                    autovalidate: true,
-                    autocorrect: false,
+                    autocorrect: true,
                     validator: (_) {
-                      return !state.isPasswordValid ? 'Invalid Password' : '';
+                      return !state.isPasswordValid ? 'Invalid Password' : null;
                     },
                   ),
                   SizedBox(

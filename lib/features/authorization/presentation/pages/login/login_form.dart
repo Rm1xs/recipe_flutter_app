@@ -81,9 +81,7 @@ class _LoginFormState extends State<LoginForm> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text('Successes logIn'),
-                    CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    )
+                    Icon(Icons.check_circle),
                   ],
                 ),
                 backgroundColor: Color(0xffffae88),
@@ -104,7 +102,7 @@ class _LoginFormState extends State<LoginForm> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                    autovalidateMode: AutovalidateMode.always,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: _emailController,
                     decoration: InputDecoration(
                       icon: Icon(Icons.email),
@@ -113,11 +111,11 @@ class _LoginFormState extends State<LoginForm> {
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: false,
                     validator: (_) {
-                      return !state.isEmailValid ? 'Invalid Email' : '';
+                      return !state.isEmailValid ? 'Invalid Email' : null;
                     },
                   ),
                   TextFormField(
-                    autovalidateMode: AutovalidateMode.always,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: _passwordController,
                     decoration: InputDecoration(
                       icon: Icon(Icons.lock),
@@ -126,7 +124,7 @@ class _LoginFormState extends State<LoginForm> {
                     obscureText: true,
                     autocorrect: false,
                     validator: (_) {
-                      return !state.isPasswordValid ? 'Invalid Password' : '';
+                      return !state.isPasswordValid ? 'Invalid Password' : null;
                     },
                   ),
                   Column(

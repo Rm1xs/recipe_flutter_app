@@ -16,8 +16,8 @@ class LoginState {
 
   factory LoginState.initial() {
     return LoginState(
-      isEmailValid: true,
-      isPasswordValid: true,
+      isEmailValid: false,
+      isPasswordValid: false,
       isSubmitting: false,
       isSuccess: false,
       isFailure: false,
@@ -86,10 +86,10 @@ class LoginState {
     required bool isFailure,
   }) {
     return LoginState(
-      isEmailValid: isEmailValid ? this.isEmailValid : this.isEmailValid,
+      isEmailValid: isEmailValid ? isEmailValid : this.isEmailValid,
       isPasswordValid:
-          isPasswordValid ? this.isPasswordValid : this.isPasswordValid,
-      isSubmitting: isSubmitting ? this.isSubmitting : this.isSubmitting,
+          isPasswordValid ? isPasswordValid : this.isPasswordValid,
+      isSubmitting: isSubmitting ? isSubmitting : this.isSubmitting,
       isSuccess: isSuccess ? this.isSuccess : this.isSuccess,
       isFailure: isFailure ? this.isFailure : this.isFailure,
     );
