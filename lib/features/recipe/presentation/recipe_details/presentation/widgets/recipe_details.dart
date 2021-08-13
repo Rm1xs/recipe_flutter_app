@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_flutter_app/core/domain/entities/recipe.dart';
 
-class RecipeDisplay extends StatelessWidget {
+class RecipeDetails extends StatelessWidget {
   final Recipe recipe;
 
-  const RecipeDisplay({
+  const RecipeDetails({
     Key? key,
     required this.recipe,
   }) : super(key: key);

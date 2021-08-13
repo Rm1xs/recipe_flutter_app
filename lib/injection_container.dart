@@ -23,12 +23,12 @@ Future<void> init() async {
     ),
   );
   sl.registerFactory(
-        () => HistoryBloc(
+        () => RecipeHistoryBloc(
        useCaseImplementation: sl(),
     ),
   );
   sl.registerFactory(
-        () => AuthenticationBloc(
+        () => AuthBloc(
        userRepository: sl(),
     ),
   );

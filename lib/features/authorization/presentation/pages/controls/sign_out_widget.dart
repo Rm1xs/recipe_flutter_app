@@ -5,13 +5,9 @@ import 'package:recipe_flutter_app/features/authorization/presentation/pages/con
 
 import '../../../../../injection_container.dart';
 
-Widget SignOutPage(BuildContext context) {
-  return buildBody(context);
-}
-
-BlocProvider<AuthenticationBloc> buildBody(BuildContext context) {
+Widget SignOutWidget(BuildContext context) {
   return BlocProvider(
-    create: (_) => sl<AuthenticationBloc>(),
+    create: (_) => sl<AuthBloc>(),
     child: Container(
       child: SignOutForm(),
     ),

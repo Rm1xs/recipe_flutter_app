@@ -37,7 +37,7 @@ class AuthRepositoryImplementation implements AuthRepository {
       password: password,
     );
 
-    if (userCredential.user!= null && !userCredential.user!.emailVerified) {
+    if (userCredential.user != null && !userCredential.user!.emailVerified) {
       await userCredential.user!.sendEmailVerification();
     }
     final token = await userCredential.user!.getIdToken();
@@ -47,7 +47,7 @@ class AuthRepositoryImplementation implements AuthRepository {
 
   @override
   Future<User?> getUser() async {
-    return await _firebaseAuth.currentUser;
+      return _firebaseAuth.currentUser;
   }
 
   @override

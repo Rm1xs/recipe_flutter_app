@@ -4,18 +4,18 @@ import 'package:recipe_flutter_app/features/recipe/domain/usecases/usecase_imple
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe_history/presentation/bloc/recipe_history_event.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe_history/presentation/bloc/recipe_history_state.dart';
 
-class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
+class RecipeHistoryBloc extends Bloc<RecipeHistoryEvent, RecipeHistoryState> {
   final UseCaseImplementation useCaseImplementation;
 
-  HistoryBloc({required this.useCaseImplementation}) : super(HistoryEmpty()) {
+  RecipeHistoryBloc({required this.useCaseImplementation}) : super(HistoryEmpty()) {
     add(GetHistoryEvent());
   }
 
   @override
-  HistoryState get initialState => HistoryEmpty();
+  RecipeHistoryState get initialState => HistoryEmpty();
 
   @override
-  Stream<HistoryState> mapEventToState(HistoryEvent event) async* {
+  Stream<RecipeHistoryState> mapEventToState(RecipeHistoryEvent event) async* {
     if (event is GetHistoryEvent) {
       yield HistoryLoading();
       try {

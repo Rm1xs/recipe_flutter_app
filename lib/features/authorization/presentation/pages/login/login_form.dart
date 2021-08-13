@@ -104,11 +104,11 @@ class _LoginFormState extends State<LoginForm> {
                   TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       icon: Icon(Icons.email),
                       labelText: "Email",
                     ),
-                    keyboardType: TextInputType.emailAddress,
                     autocorrect: false,
                     validator: (_) {
                       return !state.isEmailValid ? 'Invalid Email' : null;
@@ -117,6 +117,7 @@ class _LoginFormState extends State<LoginForm> {
                   TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: _passwordController,
+
                     decoration: InputDecoration(
                       icon: Icon(Icons.lock),
                       labelText: "Password",
@@ -141,7 +142,7 @@ class _LoginFormState extends State<LoginForm> {
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (_) {
-                            return RegisterScreen();
+                            return RegisterPage();
                           }));
                         },
                         child: Text('Register'),

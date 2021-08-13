@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-class AboutAnimation extends StatefulWidget {
+class AboutAnimationPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => AboutAnimationState();
 }
 
-class AboutAnimationState extends State<AboutAnimation>
+class AboutAnimationState extends State<AboutAnimationPage>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<Offset> position;

@@ -4,12 +4,10 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_flutter_app/core/animation/about_animation_page.dart';
 import 'package:recipe_flutter_app/core/data/models/recipe_model.dart';
-import 'package:recipe_flutter_app/core/localization/app_localizations.dart';
-import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_event.dart';
-import 'package:recipe_flutter_app/features/authorization/presentation/pages/controls/sign_out_page.dart';
+import 'package:recipe_flutter_app/core/presentation/animation/about_animation_page.dart';
+import 'package:recipe_flutter_app/core/utils/localization/app_localizations.dart';
+import 'package:recipe_flutter_app/features/authorization/presentation/pages/controls/sign_out_widget.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/bloc/bloc.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe/widgets/loading_widget.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe/widgets/message_display.dart';
@@ -103,7 +101,7 @@ class _RecipePageState extends State<RecipePage> {
                       onPressed: () {
                         showDialog(
                           context: context,
-                          builder: (_) => AboutAnimation(),
+                          builder: (_) => AboutAnimationPage(),
                         );
                       },
                     ),
@@ -111,7 +109,7 @@ class _RecipePageState extends State<RecipePage> {
                 ),
               ),
               PopupMenuItem(
-                child: SignOutPage(context),
+                child: SignOutWidget(context),
               ),
             ],
           ),
