@@ -1,20 +1,20 @@
 abstract class RegisterEvent {}
 
 class RegisterEmailChanged extends RegisterEvent {
-  final String email;
-
   RegisterEmailChanged({required this.email});
+
+  final String email;
 }
 
 class RegisterPasswordChanged extends RegisterEvent {
-  final String password;
-
   RegisterPasswordChanged({required this.password});
+
+  final String password;
 }
 
 class RegisterSubmitted extends RegisterEvent {
+  RegisterSubmitted({required this.email, required this.password});
+
   final String email;
   final String password;
-
-  RegisterSubmitted({required this.email, required this.password});
 }

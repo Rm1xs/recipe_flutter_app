@@ -34,7 +34,7 @@ class _LoginFormState extends State<RegisterForm> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<RegisterBloc, RegisterState>(
-      listener: (context, state) {
+      listener: (BuildContext context, RegisterState state) {
         if (state.isFailure) {
           ScaffoldMessenger.of(context)
             ..removeCurrentSnackBar()
@@ -43,11 +43,11 @@ class _LoginFormState extends State<RegisterForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('Register Failure'),
-                    Icon(Icons.error),
+                    const Text('Register Failure'),
+                    const Icon(Icons.error),
                   ],
                 ),
-                backgroundColor: Color(0xffffae88),
+                backgroundColor: const Color(0xffffae88),
               ),
             );
         }
@@ -60,13 +60,13 @@ class _LoginFormState extends State<RegisterForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('Registering...'),
-                    CircularProgressIndicator(
+                    const Text('Registering...'),
+                    const CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     )
                   ],
                 ),
-                backgroundColor: Color(0xffffae88),
+                backgroundColor: const Color(0xffffae88),
               ),
             );
         }
@@ -79,19 +79,19 @@ class _LoginFormState extends State<RegisterForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('Successfully registered'),
-                    Icon(
+                    const Text('Successfully registered'),
+                    const Icon(
                       Icons.check_circle,
                     )
                   ],
                 ),
-                backgroundColor: Color(0xffffae88),
+                backgroundColor: const Color(0xffffae88),
               ),
             );
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => LoginPage()),
-            (route) => false,
+            MaterialPageRoute<void>(builder: (BuildContext context) => const LoginPage()),
+            (Route<dynamic> route) => false,
           );
 
           //BlocProvider.of<AuthenticationBloc>(context).add(
@@ -101,7 +101,7 @@ class _LoginFormState extends State<RegisterForm> {
         }
       },
       child: BlocBuilder<RegisterBloc, RegisterState>(
-        builder: (context, state) {
+        builder: (BuildContext context, RegisterState state) {
           return Padding(
             padding: const EdgeInsets.all(20.0),
             child: Form(
@@ -109,9 +109,9 @@ class _LoginFormState extends State<RegisterForm> {
                 children: <Widget>[
                   TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction, controller: _emailController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       icon: Icon(Icons.email),
-                      labelText: "Email",
+                      labelText: 'Email',
                     ),
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: false,
@@ -121,9 +121,9 @@ class _LoginFormState extends State<RegisterForm> {
                   ),
                   TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction, controller: _passwordController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       icon: Icon(Icons.lock),
-                      labelText: "Password",
+                      labelText: 'Password',
                     ),
                     obscureText: true,
                     autocorrect: true,
@@ -131,7 +131,7 @@ class _LoginFormState extends State<RegisterForm> {
                       return !state.isPasswordValid ? 'Invalid Password' : null;
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   ElevatedButton(
@@ -140,9 +140,9 @@ class _LoginFormState extends State<RegisterForm> {
                         _onFormSubmitted();
                       }
                     },
-                    child: Text('Register'),
+                    child: const Text('Register'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                 ],

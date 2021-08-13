@@ -40,8 +40,8 @@ class AboutAnimationState extends State<AboutAnimationPage>
     _initPackageInfo();
 
     controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 450));
-    position = Tween<Offset>(begin: Offset(0.0, -4.0), end: Offset.zero)
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 450));
+    position = Tween<Offset>(begin: const Offset(0.0, -4.0), end: Offset.zero)
         .animate(
             CurvedAnimation(parent: controller, curve: Curves.bounceInOut));
 

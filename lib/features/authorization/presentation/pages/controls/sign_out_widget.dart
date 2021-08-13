@@ -5,11 +5,11 @@ import 'package:recipe_flutter_app/features/authorization/presentation/pages/con
 
 import '../../../../../injection_container.dart';
 
-Widget SignOutWidget(BuildContext context) {
-  return BlocProvider(
+Widget signOutWidget(BuildContext context) {
+  return BlocProvider<AuthBloc>(
     create: (_) => sl<AuthBloc>(),
     child: Container(
-      child: SignOutForm(),
+      child: const SignOutForm(),
     ),
   );
 }

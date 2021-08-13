@@ -1,15 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AuthUseCase {
-  Future checkAuth();
+  Future<User?> checkAuth();
 
-  Future logIn(String email, String password);
+  Future<UserCredential> logIn(String email, String password);
 
-  Future signUp(String email, String password);
+  Future<UserCredential> signUp(String email, String password);
 
-  Future saveToken();
+  Future<void> saveToken();
 
   Future<User?> getUser();
 
-  Future signOut();
+  Future<void> signOut();
 }

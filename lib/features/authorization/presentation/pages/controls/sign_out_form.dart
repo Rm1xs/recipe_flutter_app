@@ -25,11 +25,11 @@ class _SignOutFormState extends State<SignOutForm> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
+      listener: (BuildContext context, AuthState state) {
         if (state is Logout) {}
       },
       child: IconButton(
-        icon: Icon(
+        icon: const Icon(
           Icons.exit_to_app,
           color: Colors.black,
         ),
@@ -42,12 +42,12 @@ class _SignOutFormState extends State<SignOutForm> {
 
   void _onFormSubmitted() {
     _authBloc.add(AuthenticationLoggedOut());
-    Navigator.pushAndRemoveUntil(
+    Navigator.pushAndRemoveUntil<void>(
       context,
       ScaleRoute(
         page: const LoginPage(),
       ),
-      (Route route) => false,
+      (Route<dynamic> route) => false,
     );
   }
 }

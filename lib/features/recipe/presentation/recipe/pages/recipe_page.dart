@@ -8,12 +8,14 @@ import 'package:recipe_flutter_app/core/data/models/recipe_model.dart';
 import 'package:recipe_flutter_app/core/presentation/animation/about_animation_page.dart';
 import 'package:recipe_flutter_app/core/utils/localization/app_localizations.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/pages/controls/sign_out_widget.dart';
-import 'package:recipe_flutter_app/features/recipe/presentation/bloc/bloc.dart';
+import 'package:recipe_flutter_app/features/recipe/presentation/recipe/bloc/recipe_bloc.dart';
+import 'package:recipe_flutter_app/features/recipe/presentation/recipe/bloc/recipe_event.dart';
+import 'package:recipe_flutter_app/features/recipe/presentation/recipe/bloc/recipe_state.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe/widgets/loading_widget.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe/widgets/message_display.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe/widgets/recipe_controls.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe/widgets/recipe_display.dart';
-import 'package:recipe_flutter_app/features/recipe/presentation/recipe_history/presentation/pages/history_page.dart';
+import 'package:recipe_flutter_app/features/recipe/presentation/recipe_history/pages/history_page.dart';
 
 import '../../../../../injection_container.dart';
 
@@ -57,49 +59,49 @@ class _RecipePageState extends State<RecipePage> {
         child: FloatingActionButton(
           onPressed: () {
             sl<RecipeBloc>().add(SaveRecipes(list: data));
-            final snackBar = SnackBar(content: const Text('Recipes Saved'));
+            const SnackBar snackBar = SnackBar(content: Text('Recipes Saved'));
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
-          child: Icon(Icons.save),
+          child: const Icon(Icons.save),
         ),
       ),
       appBar: AppBar(
-        title: Text('Recipes'),
+        title: const Text('Recipes'),
         actions: <Widget>[
           PopupMenuButton<int>(
-            onSelected: (item) => onSelected(context, item),
-            itemBuilder: (context) => [
-              PopupMenuItem(
+            onSelected: (int item) => onSelected(context, item),
+            itemBuilder: (BuildContext context) => [
+              PopupMenuItem<int>(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: Container(
                     width: 120,
                     child: RaisedButton.icon(
-                      icon: Icon(Icons.history),
-                      label: Text('History'),
+                      icon: const Icon(Icons.history),
+                      label: const Text('History'),
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => HistoryPage()),
+                          MaterialPageRoute<void>(
+                              builder: (BuildContext context) => HistoryPage()),
                         );
                       },
                     ),
                   ),
                 ),
               ),
-              PopupMenuItem(
+              PopupMenuItem<int>(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: Container(
                     width: 120,
                     child: RaisedButton.icon(
-                      icon: Icon(Icons.info),
+                      icon: const Icon(Icons.info),
                       label: Text(AppLocalizations.of(context)!
                           .translate('about_button')
                           .toString()),
                       onPressed: () {
-                        showDialog(
+                        showDialog<Dialog>(
                           context: context,
                           builder: (_) => AboutAnimationPage(),
                         );
@@ -108,8 +110,8 @@ class _RecipePageState extends State<RecipePage> {
                   ),
                 ),
               ),
-              PopupMenuItem(
-                child: SignOutWidget(context),
+              PopupMenuItem<int>(
+                child: signOutWidget(context),
               ),
             ],
           ),
@@ -122,32 +124,32 @@ class _RecipePageState extends State<RecipePage> {
   }
 
   BlocProvider<RecipeBloc> buildBody(BuildContext context) {
-    return BlocProvider(
+    return BlocProvider<RecipeBloc>(
       create: (_) => sl<RecipeBloc>(),
       child: Center(
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
             children: <Widget>[
-              SizedBox(height: 10),
-              RecipeControls(),
+              const SizedBox(height: 10),
+              const RecipeControls(),
               BlocBuilder<RecipeBloc, RecipeState>(
-                builder: (context, state) {
+                builder: (BuildContext context, RecipeState state) {
                   if (state is Empty) {
-                    return MessageDisplay(
+                    return const MessageDisplay(
                       message: 'Start searching',
                     );
                   } else if (state is Loading) {
-                    return LoadingWidget();
-                  } else if (state is Loaded && state.list.hits.length >= 1) {
+                    return const LoadingWidget();
+                  } else if (state is Loaded && state.list.hits.isNotEmpty) {
                     data = state.list;
                     return RecipeDisplay(
                       recipe: state.list,
                     );
                   } else if (state is Error) {
-                    return MessageDisplay(message: 'Error');
+                    return const MessageDisplay(message: 'Error');
                   }
-                  return MessageDisplay(message: 'Not found items');
+                  return const MessageDisplay(message: 'Not found items');
                 },
               ),
             ],
@@ -166,7 +168,7 @@ class _RecipePageState extends State<RecipePage> {
     }
 
     if (!mounted) {
-      return Future.value(null);
+      return Future<dynamic>.value(null);
     }
 
     return _updateConnectionStatus(result);
@@ -186,7 +188,7 @@ class _RecipePageState extends State<RecipePage> {
     }
   }
 
-  checkerInternet() {
+  void checkerInternet() {
     if (_connectionStatus == ConnectivityResult.none.toString()) {
       visibility = false;
       return notify('No internet connection');
@@ -195,7 +197,7 @@ class _RecipePageState extends State<RecipePage> {
     }
   }
 
-  notify(String message) {
+  void notify(String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message),
     ));
@@ -207,13 +209,13 @@ void onSelected(BuildContext context, int item) {
     case 0:
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => HistoryPage()),
+        MaterialPageRoute<void>(builder: (BuildContext context) => HistoryPage()),
       );
       break;
     case 1:
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => HistoryPage()),
+        MaterialPageRoute<void>(builder: (BuildContext context) => HistoryPage()),
       );
       break;
   }

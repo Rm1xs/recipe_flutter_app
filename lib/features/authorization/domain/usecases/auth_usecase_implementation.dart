@@ -3,26 +3,26 @@ import 'package:recipe_flutter_app/core/domain/usecases/auth_usecase.dart';
 import 'package:recipe_flutter_app/features/authorization/domain/repositories/auth_repository.dart';
 
 class AuthUseCaseImplementation implements AuthUseCase {
-  final AuthRepository repository;
 
   AuthUseCaseImplementation(this.repository);
+  final AuthRepository repository;
   @override
-  Future checkAuth() async {
+  Future<User?> checkAuth() async {
     return await repository.checkAuth();
   }
 
   @override
-  Future logIn(String email, String password) async {
+  Future<UserCredential> logIn(String email, String password) async {
     return await repository.logIn(email, password);
   }
 
   @override
-  Future saveToken() async {
+  Future<void> saveToken() async {
     return await repository.saveToken();
   }
 
   @override
-  Future signUp(String email, String password) async {
+  Future<UserCredential> signUp(String email, String password) async {
     return await repository.signUp(email, password);
   }
 
@@ -32,7 +32,7 @@ class AuthUseCaseImplementation implements AuthUseCase {
   }
 
   @override
-  Future signOut() async {
+  Future<void> signOut() async {
     return await repository.signOut();
   }
 

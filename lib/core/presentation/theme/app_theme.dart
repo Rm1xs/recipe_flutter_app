@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-class CustomTheme {
-  static ThemeData get lightTheme {
-    return ThemeData(
+mixin CustomTheme {
+  static final ThemeData lightTheme = ThemeData(
       primaryColor: Colors.blueAccent,
       scaffoldBackgroundColor: Colors.white,
     );
-  }
 }

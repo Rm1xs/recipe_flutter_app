@@ -40,6 +40,9 @@ dependencies:
 
   animated_splash_screen: ^1.1.0
 
+  flutter_localizations:
+    sdk: flutter
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -50,10 +53,10 @@ flutter:
   uses-material-design: true
 
   assets:
-   - assets/
-   - assets/animations/
-   - lib/core/lang/en.json
-   - lib/core/lang/ru.json
+    - assets/
+    - assets/animations/
+    - lib/core/lang/en.json
+    - lib/core/lang/ru.json
 
   #   - images/a_dot_ham.jpeg
 

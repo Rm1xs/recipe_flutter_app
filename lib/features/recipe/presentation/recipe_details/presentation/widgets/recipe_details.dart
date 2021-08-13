@@ -2,26 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:recipe_flutter_app/core/domain/entities/recipe.dart';
 
 class RecipeDetails extends StatelessWidget {
-  final Recipe recipe;
-
   const RecipeDetails({
     Key? key,
     required this.recipe,
   }) : super(key: key);
+
+  final Recipe recipe;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: recipe.hits.length,
-          itemBuilder: (context, index) {
+          itemBuilder: (BuildContext context, int index) {
             return Hero(
               tag: 'item_$index',
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(width: 1, color: Colors.grey),
                   ),

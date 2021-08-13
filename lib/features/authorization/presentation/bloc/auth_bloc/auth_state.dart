@@ -6,19 +6,14 @@ abstract class AuthState {
 
 class AuthenticationInitial extends AuthState {}
 
-
 class UserLogged implements AuthState {
-  final User firebaseUser;
-
   UserLogged(this.firebaseUser);
+
+  final User firebaseUser;
 }
 
 class UserNeedsToLogIn implements AuthState {}
 
-
 class Logout implements AuthState {}
 
 class AuthenticationFailure extends AuthState {}
-
-
-

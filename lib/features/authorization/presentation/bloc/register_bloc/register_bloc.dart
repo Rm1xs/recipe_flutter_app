@@ -6,12 +6,11 @@ import 'package:recipe_flutter_app/features/authorization/presentation/bloc/regi
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/register_bloc/register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final AuthUseCaseImplementation _userRepository;
-
   RegisterBloc({required AuthUseCaseImplementation userRepository})
       : _userRepository = userRepository,
         super(RegisterState.initial());
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final AuthUseCaseImplementation _userRepository;
 
   @override
   Stream<RegisterState> mapEventToState(RegisterEvent event) async* {

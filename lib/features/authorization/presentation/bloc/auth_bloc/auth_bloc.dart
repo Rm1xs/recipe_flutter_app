@@ -1,15 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_flutter_app/features/authorization/domain/usecases/auth_usecase_implementation.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_event.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthUseCaseImplementation _userRepository;
-
   AuthBloc({
     required AuthUseCaseImplementation userRepository,
   })  : _userRepository = userRepository,
         super(AuthenticationInitial());
+  final AuthUseCaseImplementation _userRepository;
 
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
@@ -35,9 +35,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   // AuthenticationStarted
   Stream<AuthState> _mapAuthenticationStartedToState() async* {
-    final isSignedIn = await _userRepository.checkAuth();
-    if (isSignedIn) {
-      final firebaseUser = await _userRepository.getUser();
+    final User? isSignedIn = await _userRepository.checkAuth();
+    if (isSignedIn != null) {
+      final User? firebaseUser = await _userRepository.getUser();
       yield UserLogged(firebaseUser!);
     } else {
       //final firebaseUserStorage = await _userRepository.;

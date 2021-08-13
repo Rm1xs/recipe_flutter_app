@@ -1,17 +1,18 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_flutter_app/core/data/models/recipe_class_,model.dart';
+import 'package:recipe_flutter_app/core/data/models/recipe_class_model.dart';
 import 'package:recipe_flutter_app/features/recipe/domain/usecases/usecase_implementation.dart';
-import 'package:recipe_flutter_app/features/recipe/presentation/recipe_history/presentation/bloc/recipe_history_event.dart';
-import 'package:recipe_flutter_app/features/recipe/presentation/recipe_history/presentation/bloc/recipe_history_state.dart';
+import 'package:recipe_flutter_app/features/recipe/presentation/recipe_history/bloc/recipe_history_event.dart';
+import 'package:recipe_flutter_app/features/recipe/presentation/recipe_history/bloc/recipe_history_state.dart';
+
 
 class RecipeHistoryBloc extends Bloc<RecipeHistoryEvent, RecipeHistoryState> {
-  final UseCaseImplementation useCaseImplementation;
-
-  RecipeHistoryBloc({required this.useCaseImplementation}) : super(HistoryEmpty()) {
+  RecipeHistoryBloc({required this.useCaseImplementation})
+      : super(HistoryEmpty()) {
     add(GetHistoryEvent());
   }
 
-  @override
+  final UseCaseImplementation useCaseImplementation;
+
   RecipeHistoryState get initialState => HistoryEmpty();
 
   @override

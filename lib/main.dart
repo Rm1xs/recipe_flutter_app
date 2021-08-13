@@ -2,6 +2,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:lottie/lottie.dart';
 import 'package:recipe_flutter_app/core/utils/localization/app_localizations.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/pages/login/login_page.dart';
@@ -13,7 +14,7 @@ import 'features/recipe/presentation/recipe/pages/recipe_page.dart';
 import 'injection_container.dart' as di;
 import 'injection_container.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await di.init();
@@ -31,15 +32,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.brown,
       ),
-      supportedLocales: [
+      supportedLocales: const <Locale>[
         Locale('en', 'US'),
-        Locale('sk', 'SK'),
+        Locale('ru', 'RU'),
       ],
-      localizationsDelegates: [
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
       ],
-      localeResolutionCallback: (locale, supportedLocales) {
-        for (var supportedLocale in supportedLocales) {
+      localeResolutionCallback:
+          (Locale? locale, Iterable<Locale> supportedLocales) {
+        for (Locale supportedLocale in supportedLocales) {
           if (supportedLocale.languageCode == locale!.languageCode &&
               supportedLocale.countryCode == locale.countryCode) {
             return supportedLocale;
@@ -57,7 +61,7 @@ class MyApp extends StatelessWidget {
           ),
           nextScreen: BlocProvider<AuthBloc>(
             create: (_) => sl<AuthBloc>(),
-            child: Authentication(),
+            child: const Authentication(),
           ),
         ),
       ),
@@ -76,8 +80,7 @@ class _AuthenticationState extends State<Authentication> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<AuthBloc>(context)
-        .add(AuthenticationLoggedChek());
+    BlocProvider.of<AuthBloc>(context).add(AuthenticationLoggedChek());
   }
 
   @override
@@ -85,20 +88,20 @@ class _AuthenticationState extends State<Authentication> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (BuildContext context, AuthState state) {
         if (state is UserNeedsToLogIn) {
-          Navigator.pushAndRemoveUntil(
+          Navigator.pushAndRemoveUntil<void>(
             context,
             ScaleRoute(
               page: const LoginPage(),
             ),
-            (Route route) => false,
+            (Route<dynamic> route) => false,
           );
         } else if (state is UserLogged) {
-          Navigator.pushAndRemoveUntil(
+          Navigator.pushAndRemoveUntil<void>(
             context,
             ScaleRoute(
               page: const RecipePage(),
             ),
-            (Route route) => false,
+            (Route<dynamic> route) => false,
           );
         }
       },

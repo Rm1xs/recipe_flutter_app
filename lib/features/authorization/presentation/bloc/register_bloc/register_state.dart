@@ -1,12 +1,4 @@
 class RegisterState {
-  final bool isEmailValid;
-  final bool isPasswordValid;
-  final bool isSubmitting;
-  final bool isSuccess;
-  final bool isFailure;
-
-  bool get isFormValid => isEmailValid && isPasswordValid;
-
   RegisterState(
       {required this.isEmailValid,
       required this.isPasswordValid,
@@ -87,11 +79,18 @@ class RegisterState {
   }) {
     return RegisterState(
       isEmailValid: isEmailValid ? isEmailValid : this.isEmailValid,
-      isPasswordValid:
-          isPasswordValid ? isPasswordValid : this.isPasswordValid,
+      isPasswordValid: isPasswordValid ? isPasswordValid : this.isPasswordValid,
       isSubmitting: isSubmitting ? isSubmitting : this.isSubmitting,
       isSuccess: isSuccess ?? this.isSuccess,
       isFailure: isFailure ?? this.isFailure,
     );
   }
+
+  final bool isEmailValid;
+  final bool isPasswordValid;
+  final bool isSubmitting;
+  final bool isSuccess;
+  final bool isFailure;
+
+  bool get isFormValid => isEmailValid && isPasswordValid;
 }

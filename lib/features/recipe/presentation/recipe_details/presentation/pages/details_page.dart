@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:recipe_flutter_app/core/data/models/hit_model.dart';
 
 class DetailsPage extends StatelessWidget {
-  final HitModel recipe;
-  final int index;
-
   const DetailsPage({Key? key, required this.recipe, required this.index})
       : super(key: key);
+
+  final HitModel recipe;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class DetailsPage extends StatelessWidget {
           SliverAppBar(
             pinned: true,
             expandedHeight: MediaQuery.of(context).size.height / 2.5,
-            leading: BackButton(color: Colors.black),
+            leading: const BackButton(color: Colors.black),
             //title: Text(recipe.recipe.label),
             stretch: true,
             flexibleSpace: FlexibleSpaceBar(
@@ -35,7 +35,7 @@ class DetailsPage extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       recipe.recipe.label,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.brown),
@@ -58,18 +58,18 @@ class DetailsPage extends StatelessWidget {
                       padding: const EdgeInsets.all(7.0),
                       child: Text(
                         '${recipe.recipe.calories.toStringAsFixed(1)} Calories',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.white),
                       ),
                     ),
                   ),
                 ),
-                Divider(),
+                const Divider(),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 35, 0, 20),
                   child: Container(
                     alignment: Alignment.centerLeft,
-                    child: Text(
+                    child: const Text(
                       'Ingredients:',
                       style: TextStyle(
                           fontSize: 18,
@@ -82,7 +82,7 @@ class DetailsPage extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(15, 0, 20, 0),
                   child: Column(
                     children: List.generate(
-                        recipe.recipe.ingredientLines.length, (index) {
+                        recipe.recipe.ingredientLines.length, (int index) {
                       return Column(
                         children: [
                           Container(
@@ -91,12 +91,12 @@ class DetailsPage extends StatelessWidget {
                               padding: const EdgeInsets.all(10.0),
                               child: Text(
                                 '• ${recipe.recipe.ingredientLines[index]}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 18, color: Colors.brown),
                               ),
                             ),
                           ),
-                          Divider(),
+                          const Divider(),
                         ],
                       );
                     }),

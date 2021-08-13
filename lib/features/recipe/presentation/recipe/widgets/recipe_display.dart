@@ -4,12 +4,11 @@ import 'package:recipe_flutter_app/core/data/models/recipe_model.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe_details/presentation/pages/details_page.dart';
 
 class RecipeDisplay extends StatefulWidget {
-  final RecipeModel recipe;
-
   const RecipeDisplay({
     Key? key,
     required this.recipe,
   }) : super(key: key);
+  final RecipeModel recipe;
 
   @override
   _RecipeDisplayState createState() => _RecipeDisplayState();
@@ -21,13 +20,13 @@ class _RecipeDisplayState extends State<RecipeDisplay> {
     return Column(
       children: <Widget>[
         ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: widget.recipe.hits.length,
-          itemBuilder: (context, index) {
+          itemBuilder: (BuildContext context, int index) {
             return Dismissible(
               key: Key(widget.recipe.hits[index].recipe.label),
-              onDismissed: (direction) {
+              onDismissed: (DismissDirection direction) {
                 // Remove the item from the data source.
                 setState(() {
                   widget.recipe.hits.removeAt(index);
@@ -41,7 +40,7 @@ class _RecipeDisplayState extends State<RecipeDisplay> {
               },
               background: Container(
                 color: Colors.red[400],
-                child: Center(
+                child: const Center(
                   child: Text(
                     'Delete',
                     style: TextStyle(
@@ -55,8 +54,8 @@ class _RecipeDisplayState extends State<RecipeDisplay> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => DetailsPage(
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => DetailsPage(
                         recipe: widget.recipe.hits[index],
                         index: index,
                       ),
@@ -64,7 +63,7 @@ class _RecipeDisplayState extends State<RecipeDisplay> {
                   );
                 },
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     border: Border(
                       bottom: BorderSide(width: 1, color: Colors.grey),
                     ),
@@ -82,18 +81,20 @@ class _RecipeDisplayState extends State<RecipeDisplay> {
                               height: 80.0,
                               fit: BoxFit.fill,
                               imageUrl: widget.recipe.hits[index].recipe.image,
-                              placeholder: (context, url) => Transform.scale(
+                              placeholder: (BuildContext context, String url) =>
+                                  Transform.scale(
                                 scale: 0.5,
-                                child: CircularProgressIndicator(),
+                                child: const CircularProgressIndicator(),
                               ),
-                              errorWidget: (context, url, error) =>
-                                  new Icon(Icons.error),
+                              errorWidget:
+                                  (BuildContext context, String url, dynamic error) =>
+                                      const Icon(Icons.error),
                             ),
                           ),
                         ),
                         Expanded(
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,13 +104,13 @@ class _RecipeDisplayState extends State<RecipeDisplay> {
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   softWrap: false,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 15.0,
                                     color: Colors.brown,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 30,
                                 ),
                                 Container(
@@ -123,8 +124,8 @@ class _RecipeDisplayState extends State<RecipeDisplay> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(3.0),
                                     child: Text(
-                                      ('${widget.recipe.hits[index].recipe.calories.toStringAsFixed(1)} Cal'),
-                                      style: TextStyle(
+                                      '${widget.recipe.hits[index].recipe.calories.toStringAsFixed(1)} Cal',
+                                      style: const TextStyle(
                                         fontSize: 13.0,
                                         color: Colors.brown,
                                       ),

@@ -8,6 +8,6 @@ class RecipeModel {
   List<HitModel> hits;
 
   factory RecipeModel.fromJson(Map<String, dynamic> json) => RecipeModel(
-    hits: List<HitModel>.from(json["hits"].map((x) => HitModel.fromJson(x))),
+    hits: List<HitModel>.from(json['hits'].map((dynamic x) => HitModel.fromJson(x))),
   );
 }

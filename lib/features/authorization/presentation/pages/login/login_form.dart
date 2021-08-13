@@ -35,7 +35,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) {
+      listener: (BuildContext context, LoginState state) {
         if (state.isFailure) {
           ScaffoldMessenger.of(context)
             ..removeCurrentSnackBar()
@@ -44,11 +44,11 @@ class _LoginFormState extends State<LoginForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('Login Failure'),
-                    Icon(Icons.error),
+                    const Text('Login Failure'),
+                    const Icon(Icons.error),
                   ],
                 ),
-                backgroundColor: Color(0xffffae88),
+                backgroundColor: const Color(0xffffae88),
               ),
             );
         }
@@ -61,13 +61,13 @@ class _LoginFormState extends State<LoginForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('Logging In...'),
-                    CircularProgressIndicator(
+                    const Text('Logging In...'),
+                    const CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     )
                   ],
                 ),
-                backgroundColor: Color(0xffffae88),
+                backgroundColor: const Color(0xffffae88),
               ),
             );
         }
@@ -80,22 +80,23 @@ class _LoginFormState extends State<LoginForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('Successes logIn'),
-                    Icon(Icons.check_circle),
+                    const Text('Successes logIn'),
+                    const Icon(Icons.check_circle),
                   ],
                 ),
-                backgroundColor: Color(0xffffae88),
+                backgroundColor: const Color(0xffffae88),
               ),
             );
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => RecipePage()),
-            (route) => false,
+            MaterialPageRoute<void>(
+                builder: (BuildContext context) => const RecipePage()),
+            (Route<dynamic> route) => false,
           );
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
-        builder: (context, state) {
+        builder: (BuildContext context, LoginState state) {
           return Padding(
             padding: const EdgeInsets.all(20.0),
             child: Form(
@@ -105,9 +106,9 @@ class _LoginFormState extends State<LoginForm> {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       icon: Icon(Icons.email),
-                      labelText: "Email",
+                      labelText: 'Email',
                     ),
                     autocorrect: false,
                     validator: (_) {
@@ -117,10 +118,9 @@ class _LoginFormState extends State<LoginForm> {
                   TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: _passwordController,
-
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       icon: Icon(Icons.lock),
-                      labelText: "Password",
+                      labelText: 'Password',
                     ),
                     obscureText: true,
                     autocorrect: false,
@@ -136,16 +136,16 @@ class _LoginFormState extends State<LoginForm> {
                             _onFormSubmitted();
                           }
                         },
-                        child: Text('LogIn'),
+                        child: const Text('LogIn'),
                       ),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (_) {
-                            return RegisterPage();
+                              MaterialPageRoute<void>(builder: (_) {
+                            return const RegisterPage();
                           }));
                         },
-                        child: Text('Register'),
+                        child: const Text('Register'),
                       ),
                     ],
                   ),

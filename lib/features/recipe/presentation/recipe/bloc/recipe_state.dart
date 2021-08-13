@@ -7,19 +7,19 @@ class Empty extends RecipeState {}
 class Loading extends RecipeState {}
 
 class Loaded extends RecipeState {
-  final RecipeModel list;
-
   Loaded({required this.list});
+
+  final RecipeModel list;
 }
 
 class Saved extends RecipeState {
-  final RecipeModel data;
-
   Saved({required this.data});
+
+  final RecipeModel data;
 }
 
 class Error extends RecipeState {
-  final String message;
-
   Error({required this.message});
+
+  final String message;
 }

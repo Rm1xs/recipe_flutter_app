@@ -5,11 +5,11 @@ import 'package:recipe_flutter_app/features/authorization/presentation/bloc/logi
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/login_bloc/login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final AuthUseCaseImplementation _userRepository;
-
   LoginBloc({required AuthUseCaseImplementation userRepository})
       : _userRepository = userRepository,
         super(LoginState.initial());
+
+  final AuthUseCaseImplementation _userRepository;
 
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {

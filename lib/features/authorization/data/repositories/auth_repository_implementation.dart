@@ -3,29 +3,34 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:recipe_flutter_app/features/authorization/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImplementation implements AuthRepository {
-  final FirebaseAuth _firebaseAuth;
-  final storage = new FlutterSecureStorage();
-
   AuthRepositoryImplementation() : _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth _firebaseAuth;
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
 
   @override
-  Future checkAuth() async {
-    final currentUser = _firebaseAuth.currentUser;
+  Future<User?> checkAuth() async {
+    final User? currentUser = _firebaseAuth.currentUser;
     await storage.read(key: 'authToken');
 
-    return currentUser != null;
+    return currentUser;
   }
 
   @override
   Future<UserCredential> logIn(String email, String password) {
-    return _firebaseAuth.signInWithEmailAndPassword(
+    Future<UserCredential> user = _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
+    if (_firebaseAuth.currentUser!.emailVerified == true) {
+      return user;
+    } else {
+      signOut();
+      return user;
+    }
   }
 
   @override
-  Future saveToken() async {
+  Future<void> saveToken() async {
     await storage.deleteAll();
-    final idToken = await _firebaseAuth.currentUser!.getIdToken();
+    final String idToken = await _firebaseAuth.currentUser!.getIdToken();
     await storage.write(key: 'authToken', value: idToken);
   }
 
@@ -39,19 +44,22 @@ class AuthRepositoryImplementation implements AuthRepository {
 
     if (userCredential.user != null && !userCredential.user!.emailVerified) {
       await userCredential.user!.sendEmailVerification();
+      signOut();
+      return userCredential;
+    } else {
+      final String token = await userCredential.user!.getIdToken();
+      storage.write(key: 'authToken', value: token);
+      return userCredential;
     }
-    final token = await userCredential.user!.getIdToken();
-    storage.write(key: 'authToken', value: token);
-    return userCredential;
   }
 
   @override
   Future<User?> getUser() async {
-      return _firebaseAuth.currentUser;
+    return _firebaseAuth.currentUser;
   }
 
   @override
-  Future signOut() async {
-    return Future.wait([_firebaseAuth.signOut()]);
+  Future<void> signOut() async {
+    return _firebaseAuth.signOut();
   }
 }
