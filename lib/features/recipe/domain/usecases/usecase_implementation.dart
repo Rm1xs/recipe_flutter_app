@@ -1,8 +1,6 @@
 import 'package:recipe_flutter_app/core/data/models/recipe_class_,model.dart';
 import 'package:recipe_flutter_app/core/data/models/recipe_model.dart';
 import 'package:recipe_flutter_app/core/domain/entities/hit.dart';
-import 'package:recipe_flutter_app/core/domain/entities/recipe.dart';
-import 'package:recipe_flutter_app/core/domain/entities/recipe_class.dart';
 import 'package:recipe_flutter_app/core/domain/usecases/recipe_usecase.dart';
 import 'package:recipe_flutter_app/features/recipe/domain/repositories/recipe_repository.dart';
 

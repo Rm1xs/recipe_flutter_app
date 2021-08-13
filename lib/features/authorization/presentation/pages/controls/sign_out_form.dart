@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_flutter_app/core/animation/scale_route.dart';
+import 'package:recipe_flutter_app/core/presentation/animation/scale_route.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_event.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_state.dart';
@@ -14,17 +14,17 @@ class SignOutForm extends StatefulWidget {
 }
 
 class _SignOutFormState extends State<SignOutForm> {
-  late AuthenticationBloc _authBloc;
+  late AuthBloc _authBloc;
 
   @override
   void initState() {
     super.initState();
-    _authBloc = BlocProvider.of<AuthenticationBloc>(context);
+    _authBloc = BlocProvider.of<AuthBloc>(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthenticationBloc, AuthState>(
+    return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is Logout) {}
       },

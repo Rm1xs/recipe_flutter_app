@@ -1,5 +1,4 @@
 import 'package:recipe_flutter_app/core/data/models/recipe_model.dart';
-import 'package:recipe_flutter_app/core/domain/entities/recipe.dart';
 
 abstract class RecipeState {}
 

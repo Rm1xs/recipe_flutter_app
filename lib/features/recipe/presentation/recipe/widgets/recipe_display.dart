@@ -76,14 +76,16 @@ class _RecipeDisplayState extends State<RecipeDisplay> {
                         Hero(
                           tag: 'item_$index',
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15.0),
+                            borderRadius: BorderRadius.circular(12.0),
                             child: CachedNetworkImage(
                               width: 80.0,
                               height: 80.0,
                               fit: BoxFit.fill,
                               imageUrl: widget.recipe.hits[index].recipe.image,
-                              placeholder: (context, url) =>
-                                  CircularProgressIndicator(),
+                              placeholder: (context, url) => Transform.scale(
+                                scale: 0.5,
+                                child: CircularProgressIndicator(),
+                              ),
                               errorWidget: (context, url, error) =>
                                   new Icon(Icons.error),
                             ),

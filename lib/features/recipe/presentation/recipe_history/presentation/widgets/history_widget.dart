@@ -5,10 +5,10 @@ import 'package:recipe_flutter_app/features/recipe/presentation/recipe_details/p
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe_history/presentation/bloc/recipe_history_bloc.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe_history/presentation/bloc/recipe_history_state.dart';
 
-class History extends StatelessWidget {
+class HistoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HistoryBloc, HistoryState>(
+    return BlocBuilder<RecipeHistoryBloc, RecipeHistoryState>(
       builder: (context, state) {
         if (state is HistoryEmpty) {
           return Center(child: Text('No data'));

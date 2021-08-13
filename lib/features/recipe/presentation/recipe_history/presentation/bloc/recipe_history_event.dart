@@ -1,3 +1,3 @@
-abstract class HistoryEvent {}
+abstract class RecipeHistoryEvent {}
 
-class GetHistoryEvent extends HistoryEvent {}
+class GetHistoryEvent extends RecipeHistoryEvent {}

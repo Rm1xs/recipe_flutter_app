@@ -3,10 +3,10 @@ import 'package:recipe_flutter_app/features/authorization/domain/usecases/auth_u
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_event.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_state.dart';
 
-class AuthenticationBloc extends Bloc<AuthEvent, AuthState> {
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthUseCaseImplementation _userRepository;
 
-  AuthenticationBloc({
+  AuthBloc({
     required AuthUseCaseImplementation userRepository,
   })  : _userRepository = userRepository,
         super(AuthenticationInitial());

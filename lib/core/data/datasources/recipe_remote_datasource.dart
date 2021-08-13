@@ -49,8 +49,8 @@ class RecipeRemoteDataSourceImplementation implements RecipeRemoteDataSource {
 
   @override
   Future addRecipe(RecipeModel recipeClass) async {
-    final User tokenResult = await FirebaseAuth.instance.currentUser!;
-    final String idToken = await tokenResult.uid;
+    final User tokenResult = FirebaseAuth.instance.currentUser!;
+    final String idToken = tokenResult.uid;
 
     await Firebase.initializeApp();
 
@@ -65,8 +65,8 @@ class RecipeRemoteDataSourceImplementation implements RecipeRemoteDataSource {
   }
 
   Future deleteRecipe(CollectionReference ref) async{
-    final User tokenResult = await FirebaseAuth.instance.currentUser!;
-    final String idToken = await tokenResult.uid;
+    final User tokenResult = FirebaseAuth.instance.currentUser!;
+    final String idToken = tokenResult.uid;
 
     final CollectionReference<Map<String, dynamic>> collection = FirebaseFirestore.instance.collection('Recipes-${idToken.toString()}');
     final QuerySnapshot<Map<String, dynamic>> snapshots = await collection.get();
@@ -77,8 +77,8 @@ class RecipeRemoteDataSourceImplementation implements RecipeRemoteDataSource {
 
   @override
   Future<List<RecipeClassModel>> getRecipesDb() async {
-    final User tokenResult = await FirebaseAuth.instance.currentUser!;
-    final String idToken = await tokenResult.uid;
+    final User tokenResult = FirebaseAuth.instance.currentUser!;
+    final String idToken = tokenResult.uid;
 
     await Firebase.initializeApp();
     final QuerySnapshot<Map<String, dynamic>> db = await FirebaseFirestore.instance.collection('Recipes-${idToken.toString()}').get();

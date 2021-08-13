@@ -1,16 +1,16 @@
 
 import 'package:recipe_flutter_app/core/data/models/recipe_class_,model.dart';
 
-abstract class HistoryState {}
+abstract class RecipeHistoryState {}
 
-class HistoryEmpty extends HistoryState {}
+class HistoryEmpty extends RecipeHistoryState {}
 
-class HistoryLoading extends HistoryState {}
+class HistoryLoading extends RecipeHistoryState {}
 
-class HistoryLoaded extends HistoryState {
+class HistoryLoaded extends RecipeHistoryState {
   List<RecipeClassModel> recipes;
 
   HistoryLoaded({required this.recipes});
 }
 
-class HistoryError extends HistoryState {}
+class HistoryError extends RecipeHistoryState {}

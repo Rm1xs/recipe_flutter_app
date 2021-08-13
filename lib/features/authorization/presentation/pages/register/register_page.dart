@@ -5,8 +5,8 @@ import 'package:recipe_flutter_app/features/authorization/presentation/pages/reg
 
 import '../../../../../injection_container.dart';
 
-class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

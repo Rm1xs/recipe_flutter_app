@@ -8,14 +8,14 @@ import '../../../../../../injection_container.dart';
 class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<HistoryBloc>(
-      create: (_) => sl<HistoryBloc>(),
+    return BlocProvider<RecipeHistoryBloc>(
+      create: (_) => sl<RecipeHistoryBloc>(),
       child: Scaffold(
         appBar: AppBar(title: Text('Recipes')),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Expanded(child: History()),
+            Expanded(child: HistoryWidget()),
           ],
         ),
       ),

@@ -3,9 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:recipe_flutter_app/core/animation/scale_route.dart';
-import 'package:recipe_flutter_app/core/localization/app_localizations.dart';
+import 'package:recipe_flutter_app/core/utils/localization/app_localizations.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/pages/login/login_page.dart';
+import 'core/presentation/animation/scale_route.dart';
 import 'features/authorization/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'features/authorization/presentation/bloc/auth_bloc/auth_event.dart';
 import 'features/authorization/presentation/bloc/auth_bloc/auth_state.dart';
@@ -55,8 +55,8 @@ class MyApp extends StatelessWidget {
           splash: Lottie.network(
             'https://assets7.lottiefiles.com/packages/lf20_p1bmwqtk.json',
           ),
-          nextScreen: BlocProvider<AuthenticationBloc>(
-            create: (_) => sl<AuthenticationBloc>(),
+          nextScreen: BlocProvider<AuthBloc>(
+            create: (_) => sl<AuthBloc>(),
             child: Authentication(),
           ),
         ),
@@ -76,13 +76,13 @@ class _AuthenticationState extends State<Authentication> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<AuthenticationBloc>(context)
+    BlocProvider.of<AuthBloc>(context)
         .add(AuthenticationLoggedChek());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthenticationBloc, AuthState>(
+    return BlocListener<AuthBloc, AuthState>(
       listener: (BuildContext context, AuthState state) {
         if (state is UserNeedsToLogIn) {
           Navigator.pushAndRemoveUntil(
