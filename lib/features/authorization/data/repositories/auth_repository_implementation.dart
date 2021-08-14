@@ -19,12 +19,8 @@ class AuthRepositoryImplementation implements AuthRepository {
   Future<UserCredential> logIn(String email, String password) {
     Future<UserCredential> user = _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
-    if (_firebaseAuth.currentUser!.emailVerified == true) {
-      return user;
-    } else {
-      signOut();
-      return user;
-    }
+
+    return user;
   }
 
   @override
