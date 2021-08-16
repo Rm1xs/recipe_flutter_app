@@ -16,11 +16,16 @@ class AuthRepositoryImplementation implements AuthRepository {
   }
 
   @override
-  Future<UserCredential> logIn(String email, String password) {
-    Future<UserCredential> user = _firebaseAuth.signInWithEmailAndPassword(
+  Future<UserCredential?> logIn(String email, String password) {
+    final Future<UserCredential> user = _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
-
-    return user;
+    if(_firebaseAuth.currentUser!.emailVerified == true){
+      return user;
+    }
+    else{
+      signOut();
+      return Future.value(null);
+    }
   }
 
   @override
@@ -48,6 +53,7 @@ class AuthRepositoryImplementation implements AuthRepository {
       return userCredential;
     }
   }
+
 
   @override
   Future<User?> getUser() async {

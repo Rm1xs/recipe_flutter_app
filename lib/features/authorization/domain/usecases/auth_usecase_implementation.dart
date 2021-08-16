@@ -12,7 +12,7 @@ class AuthUseCaseImplementation implements AuthUseCase {
   }
 
   @override
-  Future<UserCredential> logIn(String email, String password) async {
+  Future<UserCredential?> logIn(String email, String password) async {
     return await repository.logIn(email, password);
   }
 
