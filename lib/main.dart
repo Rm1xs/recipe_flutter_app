@@ -19,7 +19,8 @@ Future<void> main() async {
 
   await di.init();
 
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
+
 
   runApp(MyApp());
 }
@@ -54,15 +55,9 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.system,
       home: SafeArea(
-        child: AnimatedSplashScreen(
-          duration: 2500,
-          splash: Lottie.network(
-            'https://assets7.lottiefiles.com/packages/lf20_p1bmwqtk.json',
-          ),
-          nextScreen: BlocProvider<AuthBloc>(
-            create: (_) => sl<AuthBloc>(),
-            child: const Authentication(),
-          ),
+        child: BlocProvider<AuthBloc>(
+          create: (_) => sl<AuthBloc>(),
+          child: const Authentication(),
         ),
       ),
     );

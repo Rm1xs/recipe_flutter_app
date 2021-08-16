@@ -5,34 +5,43 @@ import 'package:recipe_flutter_app/features/authorization/domain/repositories/au
 class AuthRepositoryImplementation implements AuthRepository {
   AuthRepositoryImplementation() : _firebaseAuth = FirebaseAuth.instance;
   final FirebaseAuth _firebaseAuth;
-  final FlutterSecureStorage storage = const FlutterSecureStorage();
+
+  //final FlutterSecureStorage storage = const FlutterSecureStorage();
 
   @override
   Future<User?> checkAuth() async {
-    final User? currentUser = _firebaseAuth.currentUser;
-    await storage.read(key: 'authToken');
-
-    return currentUser;
+    try {
+      final User? currentUser = _firebaseAuth.currentUser;
+      //await storage.read(key: 'authToken');
+      if(currentUser!.emailVerified == true) {
+        return currentUser;
+      }
+    } on Exception {
+      throw Error();
+    }
   }
 
   @override
-  Future<UserCredential?> logIn(String email, String password) {
-    final Future<UserCredential> user = _firebaseAuth.signInWithEmailAndPassword(
-        email: email, password: password);
-    if(_firebaseAuth.currentUser!.emailVerified == true){
-      return user;
-    }
-    else{
-      signOut();
-      return Future.value(null);
+  Future<UserCredential> logIn(String email, String password) {
+    try {
+      final Future<UserCredential> user = _firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password);
+      if(_firebaseAuth.currentUser!.emailVerified == true) {
+        return user;
+      }
+      else{
+        throw Error();
+      }
+    } on Exception {
+      throw Error();
     }
   }
 
   @override
   Future<void> saveToken() async {
-    await storage.deleteAll();
+    //await storage.deleteAll();
     final String idToken = await _firebaseAuth.currentUser!.getIdToken();
-    await storage.write(key: 'authToken', value: idToken);
+    //await storage.write(key: 'authToken', value: idToken);
   }
 
   @override
@@ -49,11 +58,10 @@ class AuthRepositoryImplementation implements AuthRepository {
       return userCredential;
     } else {
       final String token = await userCredential.user!.getIdToken();
-      storage.write(key: 'authToken', value: token);
+      //storage.write(key: 'authToken', value: token);
       return userCredential;
     }
   }
-
 
   @override
   Future<User?> getUser() async {

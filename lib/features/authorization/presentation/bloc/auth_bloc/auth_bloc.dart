@@ -37,9 +37,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> _mapAuthenticationStartedToState() async* {
     final User? isSignedIn = await _userRepository.checkAuth();
     if (isSignedIn != null) {
-      final User? firebaseUser = await _userRepository.getUser();
-      yield UserLogged(firebaseUser!);
-    } else {
+      //final User? firebaseUser = await _userRepository.getUser();
+      yield UserLogged(isSignedIn);
+    }
+    else {
       //final firebaseUserStorage = await _userRepository.;
       yield UserNeedsToLogIn();
     }

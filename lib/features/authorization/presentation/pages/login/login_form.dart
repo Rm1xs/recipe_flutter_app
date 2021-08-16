@@ -23,6 +23,7 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   late LoginBloc _loginBloc;
+  late bool _passwordVisible;
 
   @override
   void initState() {
@@ -30,6 +31,7 @@ class _LoginFormState extends State<LoginForm> {
     _loginBloc = BlocProvider.of<LoginBloc>(context);
     _emailController.addListener(_onEmailChange);
     _passwordController.addListener(_onPasswordChange);
+    _passwordVisible = false;
   }
 
   @override
@@ -43,9 +45,9 @@ class _LoginFormState extends State<LoginForm> {
               SnackBar(
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    const Text('Login Failure'),
-                    const Icon(Icons.error),
+                  children: const <Widget>[
+                    Text('Login Failure'),
+                    Icon(Icons.error),
                   ],
                 ),
                 backgroundColor: const Color(0xffffae88),
@@ -60,9 +62,9 @@ class _LoginFormState extends State<LoginForm> {
               SnackBar(
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    const Text('Logging In...'),
-                    const CircularProgressIndicator(
+                  children: const <Widget>[
+                    Text('Logging In...'),
+                    CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     )
                   ],
@@ -79,9 +81,9 @@ class _LoginFormState extends State<LoginForm> {
               SnackBar(
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    const Text('Successes logIn'),
-                    const Icon(Icons.check_circle),
+                  children: const <Widget>[
+                    Text('Successes logIn'),
+                    Icon(Icons.check_circle),
                   ],
                 ),
                 backgroundColor: const Color(0xffffae88),
@@ -118,11 +120,31 @@ class _LoginFormState extends State<LoginForm> {
                   TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: _passwordController,
-                    decoration: const InputDecoration(
-                      icon: Icon(Icons.lock),
+                    decoration: InputDecoration(
+                      icon: const Icon(Icons.lock),
                       labelText: 'Password',
+                      hintText: 'Enter your password',
+                      // Here is key idea
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          // Based on passwordVisible state choose the icon
+                          _passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Theme.of(context).primaryColorDark,
+                        ),
+                        onPressed: () {
+                          // Update the state i.e. toogle the state of passwordVisible variable
+                          setState(
+                            () {
+                              _passwordVisible = !_passwordVisible;
+                            },
+                          );
+                        },
+                      ),
                     ),
-                    obscureText: true,
+
+                    obscureText: !_passwordVisible,
                     autocorrect: false,
                     validator: (_) {
                       return !state.isPasswordValid ? 'Invalid Password' : null;
@@ -140,10 +162,14 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute<void>(builder: (_) {
-                            return const RegisterPage();
-                          }));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (_) {
+                                return const RegisterPage();
+                              },
+                            ),
+                          );
                         },
                         child: const Text('Register'),
                       ),
