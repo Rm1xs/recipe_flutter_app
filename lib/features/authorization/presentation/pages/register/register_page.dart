@@ -12,7 +12,9 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Recipes'),
+        title: const Text('Registration'),
+        backgroundColor: Colors.brown[400],
+        centerTitle: true,
       ),
       body: Container(
         child: buildBody(context),
@@ -23,15 +25,13 @@ class RegisterPage extends StatelessWidget {
   BlocProvider<RegisterBloc> buildBody(BuildContext context) {
     return BlocProvider<RegisterBloc>(
       create: (_) => sl<RegisterBloc>(),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: <Widget>[
-              const SizedBox(height: 10),
-              Container(child: RegisterForm())
-            ],
-          ),
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          children: <Widget>[
+            const SizedBox(height: 20),
+            Container(child: RegisterForm())
+          ],
         ),
       ),
     );

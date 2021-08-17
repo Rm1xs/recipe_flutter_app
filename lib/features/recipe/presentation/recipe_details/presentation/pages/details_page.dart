@@ -48,10 +48,10 @@ class DetailsPage extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
                       color: Colors.lightGreen[400],
-                      border: Border.all(
-                        color: Colors.green,
-                        width: 0,
-                      ),
+                      // border: Border.all(
+                      //   color: Colors.green,
+                      //   width: 0,
+                      // ),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Padding(

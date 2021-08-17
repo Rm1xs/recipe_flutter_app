@@ -1,9 +1,9 @@
-import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:lottie/lottie.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:recipe_flutter_app/core/utils/localization/app_localizations.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/pages/login/login_page.dart';
 import 'core/presentation/animation/scale_route.dart';
@@ -20,7 +20,7 @@ Future<void> main() async {
   await di.init();
 
   await Firebase.initializeApp();
-
+  await Hive.initFlutter();
 
   runApp(MyApp());
 }

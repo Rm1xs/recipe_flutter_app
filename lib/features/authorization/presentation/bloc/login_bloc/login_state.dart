@@ -36,6 +36,16 @@ class LoginState {
     );
   }
 
+  factory LoginState.userNeedsToVerifyEmail() {
+    return LoginState(
+      isEmailValid: true,
+      isPasswordValid: true,
+      isSubmitting: false,
+      isSuccess: false,
+      isFailure: true,
+    );
+  }
+
   factory LoginState.success() {
     return LoginState(
       isEmailValid: true,

@@ -6,21 +6,8 @@ import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/auth_bloc/auth_state.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/pages/login/login_page.dart';
 
-class SignOutForm extends StatefulWidget {
+class SignOutForm extends StatelessWidget {
   const SignOutForm({Key? key}) : super(key: key);
-
-  @override
-  _SignOutFormState createState() => _SignOutFormState();
-}
-
-class _SignOutFormState extends State<SignOutForm> {
-  late AuthBloc _authBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _authBloc = BlocProvider.of<AuthBloc>(context);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +21,14 @@ class _SignOutFormState extends State<SignOutForm> {
           color: Colors.black,
         ),
         onPressed: () {
-          _onFormSubmitted();
+          _onFormSubmitted(context);
         },
       ),
     );
   }
 
-  void _onFormSubmitted() {
+  void _onFormSubmitted(BuildContext context) {
+    final AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
     _authBloc.add(AuthenticationLoggedOut());
     Navigator.pushAndRemoveUntil<void>(
       context,

@@ -11,7 +11,11 @@ class HistoryPage extends StatelessWidget {
     return BlocProvider<RecipeHistoryBloc>(
       create: (_) => sl<RecipeHistoryBloc>(),
       child: Scaffold(
-        appBar: AppBar(title: const Text('Recipes')),
+        appBar: AppBar(
+          title: const Text('Recipes'),
+          backgroundColor: Colors.brown[400],
+          centerTitle: true,
+        ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[

@@ -11,7 +11,10 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login'), backgroundColor: Colors.brown[400],),
+      appBar: AppBar(
+          title: const Text('Login'),
+          backgroundColor: Colors.brown[400],
+          centerTitle: true),
       body: Container(
         child: buildBody(context),
       ),
@@ -21,15 +24,13 @@ class LoginPage extends StatelessWidget {
   BlocProvider<LoginBloc> buildBody(BuildContext context) {
     return BlocProvider<LoginBloc>(
       create: (_) => sl<LoginBloc>(),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: <Widget>[
-              const SizedBox(height: 10),
-              Container(child: LoginForm())
-            ],
-          ),
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          children: <Widget>[
+            const SizedBox(height: 20),
+            Container(child: LoginForm())
+          ],
         ),
       ),
     );

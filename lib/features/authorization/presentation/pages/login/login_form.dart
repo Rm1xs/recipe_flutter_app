@@ -6,14 +6,15 @@ import 'package:recipe_flutter_app/features/authorization/presentation/bloc/logi
 import 'package:recipe_flutter_app/features/authorization/presentation/pages/register/register_page.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe/pages/recipe_page.dart';
 
-class LoginForm extends StatefulWidget {
-  @override
-  _LoginFormState createState() => _LoginFormState();
-}
-
-class _LoginFormState extends State<LoginForm> {
+class LoginForm extends StatelessWidget {
+  LoginForm({Key? key}) : super(key: key);
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  double deviceHeight(BuildContext context) =>
+      MediaQuery.of(context).size.height;
+
+  double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
 
   bool get isPopulated =>
       _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
@@ -22,20 +23,9 @@ class _LoginFormState extends State<LoginForm> {
     return state.isFormValid && isPopulated;
   }
 
-  late LoginBloc _loginBloc;
-  late bool _passwordVisible;
-
-  @override
-  void initState() {
-    super.initState();
-    _loginBloc = BlocProvider.of<LoginBloc>(context);
-    _emailController.addListener(_onEmailChange);
-    _passwordController.addListener(_onPasswordChange);
-    _passwordVisible = false;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final LoginBloc _loginBloc = BlocProvider.of<LoginBloc>(context);
     return BlocListener<LoginBloc, LoginState>(
       listener: (BuildContext context, LoginState state) {
         if (state.isFailure) {
@@ -99,108 +89,84 @@ class _LoginFormState extends State<LoginForm> {
       },
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (BuildContext context, LoginState state) {
-          return Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Form(
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      icon: Icon(Icons.email),
-                      labelText: 'Email',
-                    ),
-                    autocorrect: false,
-                    validator: (_) {
-                      return !state.isEmailValid ? 'Invalid Email' : null;
-                    },
+          return Container(
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  onChanged: (String email) => _loginBloc.add(
+                    LoginEmailChange(email: _emailController.text),
                   ),
-                  TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      icon: const Icon(Icons.lock),
-                      labelText: 'Password',
-                      hintText: 'Enter your password',
-                      // Here is key idea
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          // Based on passwordVisible state choose the icon
-                          _passwordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: Theme.of(context).primaryColorDark,
-                        ),
-                        onPressed: () {
-                          // Update the state i.e. toogle the state of passwordVisible variable
-                          setState(
-                            () {
-                              _passwordVisible = !_passwordVisible;
-                            },
-                          );
-                        },
-                      ),
-                    ),
-
-                    obscureText: !_passwordVisible,
-                    autocorrect: false,
-                    validator: (_) {
-                      return !state.isPasswordValid ? 'Invalid Password' : null;
-                    },
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.email),
+                    labelText: 'Email',
                   ),
-                  Column(
+                  autocorrect: false,
+                  validator: (_) {
+                    return !state.isEmailValid ? 'Invalid Email' : null;
+                  },
+                ),
+                TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  onChanged: (String pass) => _loginBloc.add(
+                    LoginPasswordChanged(password: _passwordController.text),
+                  ),
+                  controller: _passwordController,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.lock),
+                    labelText: 'Password',
+                    hintText: 'Enter your password',
+                  ),
+                  obscureText: true,
+                  autocorrect: false,
+                  validator: (_) {
+                    return !state.isPasswordValid ? 'Invalid Password' : null;
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: deviceWidth(context) * 0.3,
+                  ),
+                  child: Row(
                     children: [
                       ElevatedButton(
                         onPressed: () {
                           if (isButtonEnabled(state)) {
-                            _onFormSubmitted();
+                            _loginBloc.add(
+                              LoginWithCredentialsPressed(
+                                  email: _emailController.text,
+                                  password: _passwordController.text),
+                            );
                           }
                         },
                         child: const Text('LogIn'),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (_) {
-                                return const RegisterPage();
-                              },
-                            ),
-                          );
-                        },
-                        child: const Text('Register'),
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (_) {
+                                  return const RegisterPage();
+                                },
+                              ),
+                            );
+                          },
+                          child: const Text('Register'),
+                        ),
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  void _onEmailChange() {
-    _loginBloc.add(LoginEmailChange(email: _emailController.text));
-  }
-
-  void _onPasswordChange() {
-    _loginBloc.add(LoginPasswordChanged(password: _passwordController.text));
-  }
-
-  void _onFormSubmitted() {
-    _loginBloc.add(LoginWithCredentialsPressed(
-        email: _emailController.text, password: _passwordController.text));
   }
 }

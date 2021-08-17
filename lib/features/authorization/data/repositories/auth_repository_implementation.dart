@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:recipe_flutter_app/core/data/datasources/secure_storage.dart';
 import 'package:recipe_flutter_app/features/authorization/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImplementation implements AuthRepository {
@@ -7,31 +8,30 @@ class AuthRepositoryImplementation implements AuthRepository {
   final FirebaseAuth _firebaseAuth;
 
   //final FlutterSecureStorage storage = const FlutterSecureStorage();
-
   @override
   Future<User?> checkAuth() async {
     try {
       final User? currentUser = _firebaseAuth.currentUser;
-      //await storage.read(key: 'authToken');
-      if(currentUser!.emailVerified == true) {
+      Box<String> box = await Hive.openBox<String>('keyStorage');
+      if(box.get('key') != null) {
         return currentUser;
       }
+      else{
+        signOut();
+        return currentUser;
+      }
+      //await storage.read(key: 'authToken');
     } on Exception {
       throw Error();
     }
   }
 
   @override
-  Future<UserCredential> logIn(String email, String password) {
+  Future<UserCredential> logIn(String email, String password) async {
     try {
       final Future<UserCredential> user = _firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
-      if(_firebaseAuth.currentUser!.emailVerified == true) {
-        return user;
-      }
-      else{
-        throw Error();
-      }
+      return user;
     } on Exception {
       throw Error();
     }
@@ -39,9 +39,10 @@ class AuthRepositoryImplementation implements AuthRepository {
 
   @override
   Future<void> saveToken() async {
-    //await storage.deleteAll();
     final String idToken = await _firebaseAuth.currentUser!.getIdToken();
-    //await storage.write(key: 'authToken', value: idToken);
+    Box<String> box = await Hive.openBox<String>('keyStorage');
+    box.put('key', idToken);
+    box.close();
   }
 
   @override
@@ -57,8 +58,6 @@ class AuthRepositoryImplementation implements AuthRepository {
       signOut();
       return userCredential;
     } else {
-      final String token = await userCredential.user!.getIdToken();
-      //storage.write(key: 'authToken', value: token);
       return userCredential;
     }
   }
@@ -70,6 +69,8 @@ class AuthRepositoryImplementation implements AuthRepository {
 
   @override
   Future<void> signOut() async {
+    Box<String> box = await Hive.openBox<String>('keyStorage');
+    box.clear();
     return _firebaseAuth.signOut();
   }
 }

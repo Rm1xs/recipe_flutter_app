@@ -67,6 +67,8 @@ class _RecipePageState extends State<RecipePage> {
       ),
       appBar: AppBar(
         title: const Text('Recipes'),
+        backgroundColor: Colors.brown[400],
+        centerTitle: true,
         actions: <Widget>[
           PopupMenuButton<int>(
             onSelected: (int item) => onSelected(context, item),
@@ -209,13 +211,15 @@ void onSelected(BuildContext context, int item) {
     case 0:
       Navigator.push(
         context,
-        MaterialPageRoute<void>(builder: (BuildContext context) => HistoryPage()),
+        MaterialPageRoute<void>(
+            builder: (BuildContext context) => HistoryPage()),
       );
       break;
     case 1:
       Navigator.push(
         context,
-        MaterialPageRoute<void>(builder: (BuildContext context) => HistoryPage()),
+        MaterialPageRoute<void>(
+            builder: (BuildContext context) => HistoryPage()),
       );
       break;
   }
