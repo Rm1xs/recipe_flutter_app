@@ -12,11 +12,10 @@ class AuthRepositoryImplementation implements AuthRepository {
   Future<User?> checkAuth() async {
     try {
       final User? currentUser = _firebaseAuth.currentUser;
-      Box<String> box = await Hive.openBox<String>('keyStorage');
-      if(box.get('key') != null) {
+      final Box<String> box = await Hive.openBox<String>('keyStorage');
+      if (box.get('key') != null) {
         return currentUser;
-      }
-      else{
+      } else {
         signOut();
         return currentUser;
       }
@@ -40,9 +39,8 @@ class AuthRepositoryImplementation implements AuthRepository {
   @override
   Future<void> saveToken() async {
     final String idToken = await _firebaseAuth.currentUser!.getIdToken();
-    Box<String> box = await Hive.openBox<String>('keyStorage');
+    final Box<String> box = await Hive.openBox<String>('keyStorage');
     box.put('key', idToken);
-    box.close();
   }
 
   @override
@@ -69,8 +67,18 @@ class AuthRepositoryImplementation implements AuthRepository {
 
   @override
   Future<void> signOut() async {
-    Box<String> box = await Hive.openBox<String>('keyStorage');
+    final Box<String> box = await Hive.openBox<String>('keyStorage');
     box.clear();
     return _firebaseAuth.signOut();
+  }
+
+  @override
+  bool checkEmail() {
+    if (_firebaseAuth.currentUser!.emailVerified) {
+      return true;
+    } else {
+      signOut();
+      return false;
+    }
   }
 }

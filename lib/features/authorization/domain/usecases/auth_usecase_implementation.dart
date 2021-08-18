@@ -3,9 +3,10 @@ import 'package:recipe_flutter_app/core/domain/usecases/auth_usecase.dart';
 import 'package:recipe_flutter_app/features/authorization/domain/repositories/auth_repository.dart';
 
 class AuthUseCaseImplementation implements AuthUseCase {
-
   AuthUseCaseImplementation(this.repository);
+
   final AuthRepository repository;
+
   @override
   Future<User?> checkAuth() async {
     return await repository.checkAuth();
@@ -36,4 +37,8 @@ class AuthUseCaseImplementation implements AuthUseCase {
     return await repository.signOut();
   }
 
+  @override
+  bool checkEmail() {
+    return repository.checkEmail();
+  }
 }
