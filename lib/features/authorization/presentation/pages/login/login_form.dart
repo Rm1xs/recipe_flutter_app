@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/login_bloc/login_bloc.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/login_bloc/login_event.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/bloc/login_bloc/login_state.dart';
+import 'package:recipe_flutter_app/features/authorization/presentation/pages/reg_page.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/pages/register/register_page.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe/pages/recipe_page.dart';
 
@@ -125,12 +126,13 @@ class LoginForm extends StatelessWidget {
                     return !state.isPasswordValid ? 'Invalid Password' : null;
                   },
                 ),
+                const SizedBox(height: 20),
                 Padding(
                   padding: EdgeInsets.only(
-                    left: deviceWidth(context) * 0.3,
+                    left: deviceWidth(context) * 0.25,
                   ),
                   child: Row(
-                    children: [
+                    children: <Widget>[
                       ElevatedButton(
                         onPressed: () {
                           if (isButtonEnabled(state)) {
@@ -151,7 +153,7 @@ class LoginForm extends StatelessWidget {
                               context,
                               MaterialPageRoute<void>(
                                 builder: (_) {
-                                  return const RegisterPage();
+                                  return RegPage();
                                 },
                               ),
                             );

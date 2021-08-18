@@ -15,14 +15,22 @@ class SignOutForm extends StatelessWidget {
       listener: (BuildContext context, AuthState state) {
         if (state is Logout) {}
       },
-      child: IconButton(
-        icon: const Icon(
-          Icons.exit_to_app,
-          color: Colors.black,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+        child: Container(
+          width: 120,
+          child: ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(primary: Colors.brown[400]),
+            onPressed: () {
+              _onFormSubmitted(context);
+            },
+            icon: const Icon(
+              Icons.exit_to_app,
+              color: Colors.white,
+            ),
+            label: const Text('Exit'),
+          ),
         ),
-        onPressed: () {
-          _onFormSubmitted(context);
-        },
       ),
     );
   }

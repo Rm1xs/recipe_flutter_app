@@ -78,7 +78,9 @@ class _RecipePageState extends State<RecipePage> {
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: Container(
                     width: 120,
-                    child: RaisedButton.icon(
+                    child: ElevatedButton.icon(
+                      style:
+                          ElevatedButton.styleFrom(primary: Colors.brown[400]),
                       icon: const Icon(Icons.history),
                       label: const Text('History'),
                       onPressed: () {
@@ -97,7 +99,9 @@ class _RecipePageState extends State<RecipePage> {
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: Container(
                     width: 120,
-                    child: RaisedButton.icon(
+                    child: ElevatedButton.icon(
+                      style:
+                          ElevatedButton.styleFrom(primary: Colors.brown[400]),
                       icon: const Icon(Icons.info),
                       label: Text(AppLocalizations.of(context)!
                           .translate('about_button')
