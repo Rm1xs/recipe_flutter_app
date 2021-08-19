@@ -45,18 +45,22 @@ class AuthRepositoryImplementation implements AuthRepository {
 
   @override
   Future<UserCredential> signUp(String email, String password) async {
-    final UserCredential userCredential =
-        await _firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      final UserCredential userCredential =
+          await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-    if (userCredential.user != null && !userCredential.user!.emailVerified) {
-      await userCredential.user!.sendEmailVerification();
-      signOut();
-      return userCredential;
-    } else {
-      return userCredential;
+      if (userCredential.user != null && !userCredential.user!.emailVerified) {
+        await userCredential.user!.sendEmailVerification();
+        signOut();
+        return userCredential;
+      } else {
+        return userCredential;
+      }
+    } on FirebaseAuthException catch (error) {
+      throw Error();
     }
   }
 

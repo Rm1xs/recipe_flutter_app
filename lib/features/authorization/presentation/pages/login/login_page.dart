@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_flutter_app/features/authorization/presentation/bloc/login_bloc/login_bloc.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/pages/login/login_form.dart';
-
-import '../../../../../injection_container.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -21,17 +17,14 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  BlocProvider<LoginBloc> buildBody(BuildContext context) {
-    return BlocProvider<LoginBloc>(
-      create: (_) => sl<LoginBloc>(),
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          children: <Widget>[
-            const SizedBox(height: 20),
-            Container(child: LoginForm())
-          ],
-        ),
+  Widget buildBody(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Column(
+        children: <Widget>[
+          const SizedBox(height: 20),
+          Container(child: LoginForm())
+        ],
       ),
     );
   }

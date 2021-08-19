@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_flutter_app/features/recipe/presentation/recipe/bloc/recipe_bloc.dart';
-import 'package:recipe_flutter_app/features/recipe/presentation/recipe/bloc/recipe_event.dart';
+import 'package:get/get.dart';
+import 'package:recipe_flutter_app/features/recipe/presentation/controller/recipe_controller.dart';
 
 class RecipeControls extends StatefulWidget {
   const RecipeControls({
@@ -14,6 +13,7 @@ class RecipeControls extends StatefulWidget {
 }
 
 class _RecipeControlsState extends State<RecipeControls> {
+  final RecipeController _controller = Get.find();
   final TextEditingController controller = TextEditingController();
   String? inputStr;
   bool isSearchAllowed = true;
@@ -34,7 +34,7 @@ class _RecipeControlsState extends State<RecipeControls> {
           onChanged: (String value) {
             if (isSearchAllowed) {
               isSearchAllowed = false;
-              BlocProvider.of<RecipeBloc>(context).add(GetRecipe(value));
+              _controller.getRecipe(value);
               Future<void>.delayed(const Duration(milliseconds: 500),
                   () => isSearchAllowed = true);
             }
@@ -46,10 +46,5 @@ class _RecipeControlsState extends State<RecipeControls> {
         const SizedBox(height: 10),
       ],
     );
-  }
-
-  void dispatchConcrete() {
-    controller.clear();
-    BlocProvider.of<RecipeBloc>(context).add(GetRecipe(inputStr!));
   }
 }
