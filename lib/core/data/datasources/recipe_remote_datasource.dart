@@ -1,12 +1,15 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:recipe_flutter_app/core/data/models/hit_model.dart';
 import 'package:recipe_flutter_app/core/data/models/recipe_class_model.dart';
 import 'package:recipe_flutter_app/core/data/models/recipe_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:recipe_flutter_app/core/error/exeptions.dart';
 
 abstract class RecipeRemoteDataSource {
-  String getRecipe(String recipe);
+  Future<RecipeModel> getRecipe(String recipe);
 
   Future<void> addRecipe(RecipeModel recipe);
 
@@ -14,13 +17,12 @@ abstract class RecipeRemoteDataSource {
 }
 
 class RecipeRemoteDataSourceImplementation implements RecipeRemoteDataSource {
-  RecipeRemoteDataSourceImplementation(this.client);
-
-  final http.Client client;
+  RecipeRemoteDataSourceImplementation();
 
   @override
-  String getRecipe(String recipe) {
-    return 'https://api.edamam.com/search?q=$recipe&app_id=f54d1c43&app_key=ea6e29f77ce572331ff618bee02f7ab8';
+  Future<RecipeModel> getRecipe(String recipe) {
+    return _getFromUrl(
+        'https://api.edamam.com/search?q=$recipe&app_id=f54d1c43&app_key=ea6e29f77ce572331ff618bee02f7ab8');
   }
 
   @override
@@ -72,6 +74,25 @@ class RecipeRemoteDataSourceImplementation implements RecipeRemoteDataSource {
         await collection.get();
     for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshots.docs) {
       await doc.reference.delete();
+    }
+  }
+
+  Future<RecipeModel> _getFromUrl(String query) async {
+    final http.Client client = http.Client();
+    final http.Response response = await client.get(
+      Uri.parse(query),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+    if (response.statusCode == 200) {
+      final RecipeModel data = RecipeModel.fromJson(json.decode(response.body));
+
+      data.hits.sort((HitModel a, HitModel b) =>
+          a.recipe.calories.compareTo(b.recipe.calories));
+      return data;
+    } else {
+      throw ServerException();
     }
   }
 }
