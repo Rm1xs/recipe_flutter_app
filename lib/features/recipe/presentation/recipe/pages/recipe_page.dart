@@ -136,7 +136,6 @@ class _RecipePageState extends State<RecipePage> {
             children: <Widget>[
               SizedBox(height: 10),
               RecipeControls(),
-              if(_controller.loadingRecipes.value)
 
               // BlocBuilder<RecipeBloc, RecipeState>(
               //   builder: (BuildContext context, RecipeState state) {

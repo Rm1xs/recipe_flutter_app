@@ -60,6 +60,7 @@ class AuthRepositoryImplementation implements AuthRepository {
         return userCredential;
       }
     } on FirebaseAuthException catch (error) {
+      print(error.toString());
       throw Error();
     }
   }

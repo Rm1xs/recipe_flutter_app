@@ -10,7 +10,7 @@ import 'package:recipe_flutter_app/features/recipe/presentation/recipe/pages/rec
 
 class AuthController extends GetxController {
   final AuthRepositoryImplementation _userRepository =
-      Get.put(AuthRepositoryImplementation());
+  Get.put(AuthRepositoryImplementation());
 
   @override
   void onInit() {
@@ -18,12 +18,15 @@ class AuthController extends GetxController {
   }
 
   Future<void> logIn(String email, String password) async {
-    _userRepository.logIn(email, password).whenComplete(() {}).then((UserCredential value) {
+    _userRepository.logIn(email, password).whenComplete(() {}).then((
+        UserCredential value) {
       if (value.user!.emailVerified == true) {
-        Get.rawSnackbar(message: 'Login success', backgroundColor: Colors.green);
+        Get.rawSnackbar(
+            message: 'Login success', backgroundColor: Colors.green);
         Get.offAll<RecipePage>(RecipePage());
       } else {
-        Get.rawSnackbar(message: 'Mail not confirmed!', backgroundColor: Colors.redAccent);
+        Get.rawSnackbar(
+            message: 'Mail not confirmed!', backgroundColor: Colors.redAccent);
         signOut();
       }
     }).onError((Object? error, StackTrace stackTrace) {
@@ -36,14 +39,15 @@ class AuthController extends GetxController {
         message: 'Register loading',
         showProgressIndicator: true,
         duration: const Duration(days: 1));
-    _userRepository.signUp(email, password).whenComplete(() {
-      Get.back<void>();
-      Get.back<void>();
-    }).onError((Object? error, StackTrace stackTrace) {
-      Get.rawSnackbar(message: error.toString(), backgroundColor: Colors.redAccent);
+    try {
+      _userRepository.signUp(email, password).whenComplete(() {
+        Get.back<void>();
+        Get.back<void>();
+      });
+    } catch(e){
+      Get.rawSnackbar(message: e.toString(), backgroundColor: Colors.redAccent);
       signOut();
-      return Future.value(null);
-    });
+    }
   }
 
   Future<void> checkAuth() async {
@@ -51,7 +55,7 @@ class AuthController extends GetxController {
         .checkAuth()
         .whenComplete(() => Get.off<RecipePage>(RecipePage()))
         .onError((Object? error, StackTrace stackTrace) =>
-            Get.off(const LoginPage()));
+        Get.off(const LoginPage()));
   }
 
   Future<void> signOut() {
