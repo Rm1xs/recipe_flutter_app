@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipe_flutter_app/core/data/models/hit_model.dart';
-import 'package:recipe_flutter_app/features/recipe/presentation/recipe_details/presentation/pages/details_page.dart';
-
+import 'package:get/get.dart';
+import 'package:recipe_flutter_app/features/recipe/presentation/controller/recipe_controller.dart';
 
 class HistoryWidget extends StatelessWidget {
+
+  final RecipeController _controller = Get.find();
+
   @override
   Widget build(BuildContext context) {
+    return Obx(() =>
+        Visibility(
+            visible: _controller.loadingHistory.value,
+            child: showRecipe()
+        ));
     // return BlocBuilder<RecipeHistoryBloc, RecipeHistoryState>(
     //   builder: (BuildContext context, RecipeHistoryState state) {
     //     if (state is HistoryEmpty) {
@@ -43,7 +49,9 @@ class HistoryWidget extends StatelessWidget {
     //         child: Text('Error', style: TextStyle(fontSize: 20.0)),
     //       );
     //     }
-        return Container();
 
+  }
+  Widget showRecipe(){
+    return Container();
   }
 }

@@ -3,15 +3,14 @@ import 'dart:async';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:recipe_flutter_app/core/data/models/hit_model.dart';
 import 'package:recipe_flutter_app/core/data/models/recipe_model.dart';
 import 'package:recipe_flutter_app/core/presentation/animation/about_animation_page.dart';
 import 'package:recipe_flutter_app/core/utils/localization/app_localizations.dart';
 import 'package:recipe_flutter_app/features/authorization/presentation/pages/controls/sign_out_widget.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/controller/recipe_controller.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe/widgets/loading_widget.dart';
-import 'package:recipe_flutter_app/features/recipe/presentation/recipe/widgets/message_display.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe/widgets/recipe_controls.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe/widgets/recipe_display.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe_history/pages/history_page.dart';
@@ -26,6 +25,7 @@ class RecipePage extends StatefulWidget {
 class _RecipePageState extends State<RecipePage> {
   final RecipeController _controller = Get.find();
   RecipeModel data = RecipeModel(hits: []);
+
   bool visibility = false;
 
   String _connectionStatus = 'Unknown';
@@ -49,6 +49,7 @@ class _RecipePageState extends State<RecipePage> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +58,11 @@ class _RecipePageState extends State<RecipePage> {
         child: FloatingActionButton(
           onPressed: () {
             //sl<RecipeBloc>().add(SaveRecipes(list: data));
+            data.hits.clear();
+            _controller.listRecipe.forEach((HitModel element) {
+              data.hits.add(element);
+            });
+            _controller.addRecipe(data);
             const SnackBar snackBar = SnackBar(content: Text('Recipes Saved'));
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
@@ -70,7 +76,8 @@ class _RecipePageState extends State<RecipePage> {
         actions: <Widget>[
           PopupMenuButton<int>(
             onSelected: (int item) => onSelected(context, item),
-            itemBuilder: (BuildContext context) => [
+            itemBuilder: (BuildContext context) =>
+            [
               PopupMenuItem<int>(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
@@ -78,7 +85,7 @@ class _RecipePageState extends State<RecipePage> {
                     width: 120,
                     child: ElevatedButton.icon(
                       style:
-                          ElevatedButton.styleFrom(primary: Colors.brown[400]),
+                      ElevatedButton.styleFrom(primary: Colors.brown[400]),
                       icon: const Icon(Icons.history),
                       label: const Text('History'),
                       onPressed: () {
@@ -99,7 +106,7 @@ class _RecipePageState extends State<RecipePage> {
                     width: 120,
                     child: ElevatedButton.icon(
                       style:
-                          ElevatedButton.styleFrom(primary: Colors.brown[400]),
+                      ElevatedButton.styleFrom(primary: Colors.brown[400]),
                       icon: const Icon(Icons.info),
                       label: Text(AppLocalizations.of(context)!
                           .translate('about_button')
@@ -128,40 +135,48 @@ class _RecipePageState extends State<RecipePage> {
   }
 
   Widget buildBody(BuildContext context) {
-    Widget child;
     return Center(
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 10),
-              RecipeControls(),
-              if(_controller.loadingRecipes.value)
-
-              // BlocBuilder<RecipeBloc, RecipeState>(
-              //   builder: (BuildContext context, RecipeState state) {
-              //     if (state is Empty) {
-              //       return const MessageDisplay(
-              //         message: 'Start searching',
-              //       );
-              //     } else if (state is Loading) {
-              //       return const LoadingWidget();
-              //     } else if (state is Loaded && state.list.hits.isNotEmpty) {
-              //       data = state.list;
-              //       return RecipeDisplay(
-              //         recipe: state.list,
-              //       );
-              //     } else if (state is Error) {
-              //       return const MessageDisplay(message: 'Error');
-              //     }
-              //     return const MessageDisplay(message: 'Not found items');
-              //   },
-              // ),
-            ],
-          ),
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: 10),
+            RecipeControls(),
+            Obx(() =>
+                Visibility(
+                    visible: _controller.loadingRecipes.value,
+                    child: const LoadingWidget()
+                )),
+            Obx(() =>
+                Visibility(
+                    visible: !_controller.loadingRecipes.value,
+                    child: RecipeDisplay(recipe: _controller.listRecipe)
+                )),
+            // BlocBuilder<RecipeBloc, RecipeState>(
+            //   builder: (BuildContext context, RecipeState state) {
+            //     if (state is Empty) {
+            //       return const MessageDisplay(
+            //         message: 'Start searching',
+            //       );
+            //     } else if (state is Loading) {
+            //       return const LoadingWidget();
+            //     } else if (state is Loaded && state.list.hits.isNotEmpty) {
+            //       data = state.list;
+            //       return RecipeDisplay(
+            //         recipe: state.list,
+            //       );
+            //     } else if (state is Error) {
+            //       return const MessageDisplay(message: 'Error');
+            //     }
+            //     return const MessageDisplay(message: 'Not found items');
+            //   },
+            // ),
+          ],
         ),
-      );
+      ),
+    );
   }
+
 
   Future<void> initConnectivity() async {
     ConnectivityResult result = ConnectivityResult.none;
