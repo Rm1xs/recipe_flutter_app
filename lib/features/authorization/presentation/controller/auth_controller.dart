@@ -18,12 +18,17 @@ class AuthController extends GetxController {
   }
 
   Future<void> logIn(String email, String password) async {
-    _userRepository.logIn(email, password).whenComplete(() {}).then((UserCredential value) {
+    _userRepository
+        .logIn(email, password)
+        .whenComplete(() {})
+        .then((UserCredential value) {
       if (value.user!.emailVerified == true) {
-        Get.rawSnackbar(message: 'Login success', backgroundColor: Colors.green);
+        Get.rawSnackbar(
+            message: 'Login success', backgroundColor: Colors.green);
         Get.offAll<RecipePage>(RecipePage());
       } else {
-        Get.rawSnackbar(message: 'Mail not confirmed!', backgroundColor: Colors.redAccent);
+        Get.rawSnackbar(
+            message: 'Mail not confirmed!', backgroundColor: Colors.redAccent);
         signOut();
       }
     }).onError((Object? error, StackTrace stackTrace) {
@@ -40,18 +45,21 @@ class AuthController extends GetxController {
       Get.back<void>();
       Get.back<void>();
     }).onError((Object? error, StackTrace stackTrace) {
-      Get.rawSnackbar(message: error.toString(), backgroundColor: Colors.redAccent);
+      Get.rawSnackbar(
+          message: error.toString(), backgroundColor: Colors.redAccent);
       signOut();
       return Future.value(null);
     });
   }
 
   Future<void> checkAuth() async {
-    _userRepository
-        .checkAuth()
-        .whenComplete(() => Get.off<RecipePage>(RecipePage()))
-        .onError((Object? error, StackTrace stackTrace) =>
-            Get.off(const LoginPage()));
+    _userRepository.checkAuth().then((User? value) {
+      if (value != null && value.emailVerified == true) {
+        Get.off<void>(RecipePage());
+      } else {
+        Get.off<void>(const LoginPage());
+      }
+    });
   }
 
   Future<void> signOut() {

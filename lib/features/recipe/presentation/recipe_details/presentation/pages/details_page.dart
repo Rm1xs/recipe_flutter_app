@@ -15,6 +15,7 @@ class DetailsPage extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
+            backgroundColor: Colors.brown[400],
             pinned: true,
             expandedHeight: MediaQuery.of(context).size.height / 2.5,
             leading: const BackButton(color: Colors.black),

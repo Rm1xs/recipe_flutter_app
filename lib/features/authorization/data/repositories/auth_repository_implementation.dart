@@ -16,7 +16,7 @@ class AuthRepositoryImplementation implements AuthRepository {
       if (box.get('key') != null) {
         return currentUser;
       } else {
-        signOut();
+        //signOut();
         return currentUser;
       }
       //await storage.read(key: 'authToken');

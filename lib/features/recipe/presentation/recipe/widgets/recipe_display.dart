@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:recipe_flutter_app/core/data/models/hit_model.dart';
 import 'package:recipe_flutter_app/core/data/models/recipe_model.dart';
 import 'package:recipe_flutter_app/features/recipe/presentation/recipe_details/presentation/pages/details_page.dart';
 
@@ -8,7 +10,7 @@ class RecipeDisplay extends StatefulWidget {
     Key? key,
     required this.recipe,
   }) : super(key: key);
-  final RecipeModel recipe;
+  final RxList<HitModel> recipe;
 
   @override
   _RecipeDisplayState createState() => _RecipeDisplayState();
@@ -22,19 +24,19 @@ class _RecipeDisplayState extends State<RecipeDisplay> {
         ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: widget.recipe.hits.length,
+          itemCount: widget.recipe.length,
           itemBuilder: (BuildContext context, int index) {
             return Dismissible(
-              key: Key(widget.recipe.hits[index].recipe.label),
+              key: Key(widget.recipe[index].recipe.label),
               onDismissed: (DismissDirection direction) {
                 // Remove the item from the data source.
                 setState(() {
-                  widget.recipe.hits.removeAt(index);
+                  widget.recipe.removeAt(index);
                 });
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(
-                        '${widget.recipe.hits[index].recipe.label} dismissed'),
+                    content:
+                        Text('${widget.recipe[index].recipe.label} dismissed'),
                   ),
                 );
               },
@@ -56,7 +58,7 @@ class _RecipeDisplayState extends State<RecipeDisplay> {
                     context,
                     MaterialPageRoute<void>(
                       builder: (BuildContext context) => DetailsPage(
-                        recipe: widget.recipe.hits[index],
+                        recipe: widget.recipe[index],
                         index: index,
                       ),
                     ),
@@ -80,15 +82,15 @@ class _RecipeDisplayState extends State<RecipeDisplay> {
                               width: 80.0,
                               height: 80.0,
                               fit: BoxFit.fill,
-                              imageUrl: widget.recipe.hits[index].recipe.image,
+                              imageUrl: widget.recipe[index].recipe.image,
                               placeholder: (BuildContext context, String url) =>
                                   Transform.scale(
                                 scale: 0.5,
                                 child: const CircularProgressIndicator(),
                               ),
-                              errorWidget:
-                                  (BuildContext context, String url, dynamic error) =>
-                                      const Icon(Icons.error),
+                              errorWidget: (BuildContext context, String url,
+                                      dynamic error) =>
+                                  const Icon(Icons.error),
                             ),
                           ),
                         ),
@@ -100,7 +102,7 @@ class _RecipeDisplayState extends State<RecipeDisplay> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  widget.recipe.hits[index].recipe.label,
+                                  widget.recipe[index].recipe.label,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   softWrap: false,
@@ -124,7 +126,7 @@ class _RecipeDisplayState extends State<RecipeDisplay> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(3.0),
                                     child: Text(
-                                      '${widget.recipe.hits[index].recipe.calories.toStringAsFixed(1)} Cal',
+                                      '${widget.recipe[index].recipe.calories.toStringAsFixed(1)} Cal',
                                       style: const TextStyle(
                                         fontSize: 13.0,
                                         color: Colors.brown,
